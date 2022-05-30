@@ -35,10 +35,10 @@ export default {
       const remainingHours = this.totalPtoAccrualHours - this.totalPtoPlanned;
 
       if (
-        remainingHours - this.$store.getters.selectedPlan.hoursToRollover >=
+        remainingHours - this.$store.getters.selectedPlan.hoursToPlan >=
         0
       ) {
-        return this.$store.getters.selectedPlan.hoursToRollover;
+        return this.$store.getters.selectedPlan.hoursToPlan;
       } else {
         if (remainingHours > 0) {
           return remainingHours;
@@ -48,10 +48,10 @@ export default {
       }
     },
     remainingRolloverHoursPercent() {
-      if (this.$store.getters.selectedPlan.hoursToRollover > 0) {
+      if (this.$store.getters.selectedPlan.hoursToPlan > 0) {
         return (
           (this.remainingRolloverHours /
-            this.$store.getters.selectedPlan.hoursToRollover) *
+            this.$store.getters.selectedPlan.hoursToPlan) *
           100
         );
       } else {
@@ -64,7 +64,7 @@ export default {
     },
     showChangeRolloverAmountMessage() {
       return (
-        this.$store.getters.selectedPlan.hoursToRollover > 0 &&
+        this.$store.getters.selectedPlan.hoursToPlan > 0 &&
         this.remainingRolloverHoursPercent !== 100
       );
     },

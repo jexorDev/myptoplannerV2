@@ -15,52 +15,23 @@
       <v-col></v-col>
     </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <div>How many hours did you enter {{ selectedPlanYearSync }} with?</div>
-        <div class="font-weight-light">
-          This can be found on any of your {{ selectedPlanYearSync }} pay stubs
-          as "Banked PTO Hrs"
-        </div>
-      </v-col>
-      <v-col cols="1">
-        <v-text-field
-          v-model="bankedHoursFromPriorYearSync"
-          type="number"
-          label="Banked PTO"
-        ></v-text-field>
-      </v-col>
-      <v-col></v-col>
-    </v-row>
+    
     <v-row>
       <v-col cols="4">
         <div>
-          How many hours would you like to rollover to
-          {{ planYearNumeric + 1 }}?
+          How many hours would you like to plan?
         </div>
         <div class="font-weight-light mb-2">
-          You may rollover a maximum of 40 hours to {{ planYearNumeric + 1 }}
+          You are required to take a minimum of 10 days of FTO
         </div>
       </v-col>
       <v-col cols="5">
-        <v-slider
-          v-model="hoursToRolloverSync"
-          :max="40"
-          :min="0"
-          :thumb-label="true"
-          :step="0.25"
-          inverse-label
-        >
-          <template v-slot:append>
-            <v-text-field
-              v-model="hoursToRolloverSync"
+         <v-text-field
+              v-model="hoursToPlanSync"
               class="mt-0 pt-0"
               type="number"
               style="width: 60px"
-              readonly
             ></v-text-field>
-          </template>
-        </v-slider>
       </v-col>
       <v-col></v-col>
     </v-row>
@@ -85,13 +56,69 @@
         ></v-text-field>
       </v-col>
     </v-row>
+
+     <v-row no-gutters>
+      <v-col cols="4">
+        <v-checkbox
+          v-model="isDeveloperSync"
+          label="I'm a developer"
+        ></v-checkbox>
+      </v-col>
+      <v-col> </v-col>
+    </v-row>
+    <v-row v-show="isDeveloperSync" no-gutters>
+      <v-col>
+        <v-checkbox
+          v-model="participatesInFlexSync"
+          label="I participate in flex scheduling"
+        ></v-checkbox>
+      </v-col>
+      <v-col> </v-col>
+    </v-row>
+    <v-row v-show="isDeveloperSync && participatesInFlexSync" no-gutters>
+      <v-col>
+        <v-radio-group
+          v-model="flexScheduleTypeSync"
+          label="Flex Schedule Type"
+        >
+          <v-radio label="Every other Friday" value="full"></v-radio>
+          <v-radio label="Half day each Friday" value="half"></v-radio>
+        </v-radio-group>
+      </v-col>
+    </v-row>
+    <v-row
+      v-show="
+        isDeveloperSync &&
+        participatesInFlexSync &&
+        flexScheduleTypeSync === 'full'
+      "
+      no-gutters
+    >
+      <v-col cols="4">
+        <div>
+          <div class="font-weight-light">
+            Please enter a date that one of your flex days will land on.
+          </div>
+        </div>
+      </v-col>
+      <v-col>
+        <div>
+          <DatePickerInMenu
+            label="Flex Day"
+            :selectedDate.sync="flexDayReferenceDateSync"
+          ></DatePickerInMenu>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
 import moment from "moment";
+import DatePickerInMenu from "@/components/Inputs/DatePickerInMenu";
 
 export default {
   name: "SetupPlan",
+  components: { DatePickerInMenu},
   data: () => ({
     planYears: [moment().year().toString(), (moment().year() + 1).toString()],
     maxHoursCanRollover: 0,
@@ -105,22 +132,25 @@ export default {
       type: String,
       required: true,
     },
-    hoursToRollover: {
+    hoursToPlan: {
       type: Number,
       required: true,
     },
-    bankedHoursFromPriorYear: {
-      type: Number,
+     isDeveloper: {
+      type: Boolean,
       required: true,
     },
-    dateOfHire: {
+    participatesInFlex: {
+      type: Boolean,
+      required: true,
+    },
+    flexScheduleType: {
       type: String,
       required: true,
     },
-    isPlanYearDisabled: {
-      type: Boolean,
-      required: false,
-      default: false,
+    flexDayReferenceDate: {
+      type: String,
+      required: true,
     },
   },
   mounted() {
@@ -146,20 +176,44 @@ export default {
         this.$emit("update:planName", `${this.selectedPlanYear} - ${value}`);
       },
     },
-    hoursToRolloverSync: {
+    hoursToPlanSync: {
       get() {
-        return this.hoursToRollover;
+        return this.hoursToPlan;
       },
       set(value) {
-        this.$emit("update:hoursToRollover", parseFloat(value));
+        this.$emit("update:hoursToPlan", parseFloat(value));
       },
     },
-    bankedHoursFromPriorYearSync: {
+    isDeveloperSync: {
       get() {
-        return this.bankedHoursFromPriorYear;
+        return this.isDeveloper;
       },
       set(value) {
-        this.$emit("update:bankedHoursFromPriorYear", parseFloat(value));
+        this.$emit("update:isDeveloper", value);
+      },
+    },
+    participatesInFlexSync: {
+      get() {
+        return this.participatesInFlex;
+      },
+      set(value) {
+        this.$emit("update:participatesInFlex", value);
+      },
+    },
+    flexScheduleTypeSync: {
+      get() {
+        return this.flexScheduleType;
+      },
+      set(value) {
+        this.$emit("update:flexScheduleType", value);
+      },
+    },
+    flexDayReferenceDateSync: {
+      get() {
+        return this.flexDayReferenceDate;
+      },
+      set(value) {
+        this.$emit("update:flexDayReferenceDate", value);
       },
     },
   },

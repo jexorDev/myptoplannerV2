@@ -29,8 +29,7 @@ export default {
   computed: {
     totalPtoToPlan() {
       return (
-        this.totalPtoAccrualHours -
-        this.$store.getters.selectedPlan.hoursToRollover
+        this.$store.getters.selectedPlan.hoursToPlan
       );
     },
     remainingPtoToPlan() {

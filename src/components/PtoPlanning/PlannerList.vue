@@ -8,18 +8,7 @@
       <template v-slot:item.date="{ item }">
         {{ item.date | formatDate }}
       </template>
-      <template v-slot:item.type="{ item }">
-        <div
-          :class="[
-            'text-uppercase',
-            'caption',
-            'font-weight-medium',
-            `${getEventColor(item.type)}--text`,
-          ]"
-        >
-          {{ getDescription(item.type) }}
-        </div>
-      </template>
+     
       <template v-slot:item.hours="{ item }">
         <v-chip v-if="item.hours" :color="getEventColor(item.type)" dark label>
           {{ item.hours }}
@@ -43,9 +32,7 @@ export default {
   data: () => ({
     tableHeaders: [
       { text: "Date", value: "date" },
-      { text: "Type", value: "type", width: "300" },
-      { text: "Change", value: "hours", align: "end" },
-      { text: "Balance", value: "runningTotal", align: "end" },
+      { text: "Amount", value: "hours", align: "end" },
       { text: "", value: "actions", width: "200", align: "end" },
     ],
   }),
@@ -58,7 +45,7 @@ export default {
         this.$store.getters.selectedPlan.year,
         this.$store.getters.selectedPlan.hoursBankedPrior,
         this.totalPtoAccrualHours,
-        this.$store.getters.selectedPlan.hoursToRollover
+        this.$store.getters.selectedPlan.hoursToPlan
       );
     },
   },

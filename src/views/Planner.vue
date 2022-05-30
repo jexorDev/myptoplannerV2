@@ -1,25 +1,38 @@
 <template>
   <div>
-    <v-row no-gutters>
+       <v-row>
+      <v-col cols="9">
+        <div v-show="viewType === 'calendar'">
+          <PlannerCalendar
+            :ptoDates="ptoDates"
+            :holidays="holidays"
+            :flexDays="flexDays"
+            :payDays="payDays"
+            @delete-pto="deletePto"
+            @focus-changed="calendarDateChanged"
+          ></PlannerCalendar>
+        </div>
+        <div v-show="viewType === 'list'">
+          <PlannerList @delete-pto="deletePto"> </PlannerList>
+        </div>
+      </v-col>
       <v-col>
-        <div class="overline">View Type</div>
+         <div class="overline">View Type</div>
         <v-btn-toggle v-model="viewType" mandatory dense>
           <v-btn value="calendar"> Calendar </v-btn>
           <v-btn value="list"> List </v-btn>
         </v-btn-toggle>
-      </v-col>
-      <v-col class="d-flex justify-end">
-        <div class="mr-5">
-          <div class="overline">Entry Type</div>
+
+<v-divider class="mt-3"></v-divider>
+
+        <div class="overline">Entry Type</div>
 
           <v-btn-toggle v-model="entryType" mandatory dense>
             <v-btn value="single"> Single Day </v-btn>
             <v-btn value="multiple"> Multiple Days </v-btn>
           </v-btn-toggle>
-        </div>
-      </v-col>
-      <v-col>
-        <div v-if="entryType === 'multiple'">
+
+            <div v-if="entryType === 'multiple'">
           <div class="d-flex justify-start">
             <div class="mr-2 mt-3 mb-0" style="width: 110px">
               <DatePickerInMenu
@@ -73,36 +86,14 @@
         <div class="font-weight-light font-italic mt-7 d-inline">
           {{ totalHours }} total hours
         </div>
-      </v-col>
-      <v-col>
         <v-btn class="mt-5 d-inline" color="primary" @click="addPto"
           >Enter</v-btn
         >
-      </v-col>
-    </v-row>
-    <v-divider></v-divider>
-    <v-row>
-      <v-col cols="9">
-        <div v-show="viewType === 'calendar'">
-          <PlannerCalendar
-            :ptoDates="ptoDates"
-            :holidays="holidays"
-            :flexDays="flexDays"
-            :payDays="payDays"
-            @delete-pto="deletePto"
-            @focus-changed="calendarDateChanged"
-          ></PlannerCalendar>
-        </div>
-        <div v-show="viewType === 'list'">
-          <PlannerList @delete-pto="deletePto"> </PlannerList>
-        </div>
-      </v-col>
-      <v-col>
+
+<v-divider class="mt-3"></v-divider>
+
         <div class="mt-3">
           <WidgetHoursRemaining></WidgetHoursRemaining>
-        </div>
-        <div class="mt-3">
-          <WidgetRolloverHoursRemaining></WidgetRolloverHoursRemaining>
         </div>
       </v-col>
     </v-row>
@@ -110,7 +101,6 @@
 </template>
 <script>
 import WidgetHoursRemaining from "@/components/widgets/WidgetHoursRemaining";
-import WidgetRolloverHoursRemaining from "@/components/widgets/WidgetRolloverHoursRemaining";
 import PlannerList from "@/components/PtoPlanning/PlannerList";
 import PlannerCalendar from "@/components/PtoPlanning/PlannerCalendar";
 import DatePickerInMenu from "@/components/Inputs/DatePickerInMenu";
@@ -131,7 +121,6 @@ export default {
     PlannerList,
     DatePickerInMenu,
     WidgetHoursRemaining,
-    WidgetRolloverHoursRemaining,
   },
   data: () => ({
     viewType: "calendar",

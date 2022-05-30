@@ -33,7 +33,7 @@
     <SetupPlan
       :selectedPlanYear="planYear"
       :planName.sync="planName"
-      :hoursToRollover.sync="hoursToRollover"
+      :hoursToPlan.sync="hoursToPlan"
       :bankedHoursFromPriorYear.sync="bankedHoursFromPriorYear"
       :dateOfHire="dateOfHire"
       :isPlanYearDisabled="true"
@@ -100,8 +100,8 @@ export default {
     oldFlexScheduleType: "full",
     flexDayReferenceDate: "",
     oldFlexDayReferenceDate: "",
-    hoursToRollover: 0,
-    oldHoursToRollover: 0,
+    hoursToPlan: 0,
+    oldhoursToPlan: 0,
     bankedHoursFromPriorYear: 0,
     oldBankedHoursFromPriorYear: 0,
     planName: "",
@@ -132,8 +132,8 @@ export default {
       if (plan) {
         this.planName = plan.name;
         this.oldPlanName = this.planName;
-        this.hoursToRollover = plan.hoursToRollover;
-        this.oldHoursToRollover = this.hoursToRollover;
+        this.hoursToPlan = plan.hoursToPlan;
+        this.oldhoursToPlan = this.hoursToPlan;
         this.bankedHoursFromPriorYear = plan.hoursBankedPrior;
         this.oldBankedHoursFromPriorYear = this.bankedHoursFromPriorYear;
         this.planYear = plan.year;
@@ -168,21 +168,21 @@ export default {
         updatedPlan: {
           name: this.planName,
           year: this.planYear,
-          hoursToRollover: this.hoursToRollover,
+          hoursToPlan: this.hoursToPlan,
           hoursBankedPrior: this.bankedHoursFromPriorYear,
           created: this.planCreated,
         },
       });
 
       this.oldPlanName = this.planName;
-      this.oldHoursToRollover = this.hoursToRollover;
+      this.oldhoursToPlan = this.hoursToPlan;
       this.oldBankedHoursFromPriorYear = this.bankedHoursFromPriorYear;
 
       this.$store.dispatch("setSelectedPlanName", this.planName);
     },
     cancelPlanInfoChanges() {
       this.planName = this.oldPlanName;
-      this.hoursToRollover = this.oldHoursToRollover;
+      this.hoursToPlan = this.oldhoursToPlan;
       this.bankedHoursFromPriorYear = this.oldBankedHoursFromPriorYear;
     },
     deletePlan() {
@@ -223,7 +223,7 @@ export default {
       return (
         this.planName === this.oldPlanName &&
         this.bankedHoursFromPriorYear === this.oldBankedHoursFromPriorYear &&
-        this.hoursToRollover === this.oldHoursToRollover
+        this.hoursToPlan === this.oldhoursToPlan
       );
     },
     selectedPlanName() {

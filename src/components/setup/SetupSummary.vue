@@ -24,7 +24,7 @@
       </v-timeline-item>
       <v-timeline-item right small>
         You are rolling over
-        <span class="primary--text">{{ hoursToRollover }}</span>
+        <span class="primary--text">{{ hoursToPlan }}</span>
         hours to {{ planYearNumeric + 1 }}
       </v-timeline-item>
       <v-timeline-item right small>
@@ -32,7 +32,7 @@
         <span class="primary--text">{{ hoursNeedToUse }}</span>
         hours prior to January 1, {{ planYearNumeric + 1 }}</v-timeline-item
       >
-      <v-timeline-item right small v-if="hoursToRollover > 0">
+      <v-timeline-item right small v-if="hoursToPlan > 0">
         Your starting Banked PTO balance in {{ planYearNumeric + 1 }} will be
         <span class="primary--text">{{ nextYearBankedPto }}</span>
       </v-timeline-item>
@@ -96,7 +96,7 @@ export default {
       type: Number,
       required: true,
     },
-    hoursToRollover: {
+    hoursToPlan: {
       type: Number,
       required: false,
       default: 0,
@@ -108,10 +108,10 @@ export default {
   },
   computed: {
     hoursNeedToUse() {
-      return this.hoursWillAccrueForPlanYear - this.hoursToRollover;
+      return this.hoursWillAccrueForPlanYear - this.hoursToPlan;
     },
     nextYearBankedPto() {
-      return this.bankedHoursFromPriorYear + this.hoursToRollover;
+      return this.bankedHoursFromPriorYear + this.hoursToPlan;
     },
     planYearNumeric() {
       return parseInt(this.planYear);

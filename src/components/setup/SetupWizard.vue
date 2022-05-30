@@ -36,7 +36,7 @@
           <SetupPlan
             :selectedPlanYear.sync="selectedPlanYear"
             :planName.sync="planName"
-            :hoursToRollover.sync="hoursToRollover"
+            :hoursToPlan.sync="hoursToPlan"
             :bankedHoursFromPriorYear.sync="bankedHoursFromPriorYear"
             :dateOfHire="dateOfHire"
           ></SetupPlan>
@@ -67,7 +67,7 @@
                 :planYear="selectedPlanYear"
                 :bankedHoursFromPriorYear="bankedHoursFromPriorYear"
                 :hoursWillAccrueForPlanYear="hoursWillAccrueForPlanYear"
-                :hoursToRollover="hoursToRollover"
+                :hoursToPlan="hoursToPlan"
                 :ptoAccrualBreakdown="ptoBreakdown.breakdown"
               ></SetupSummary>
             </v-col>
@@ -116,7 +116,7 @@ export default {
     ptoBreakdown: null,
     planName: "",
     selectedPlanYear: "",
-    hoursToRollover: 0,
+    hoursToPlan: 0,
     bankedHoursFromPriorYear: 0,
   }),
   mounted: function () {
@@ -156,7 +156,7 @@ export default {
         name: this.planName,
         created: moment(),
         year: this.selectedPlanYear,
-        hoursToRollover: this.hoursToRollover,
+        hoursToPlan: this.hoursToPlan,
         hoursBankedPrior: this.bankedHoursFromPriorYear,
       });
       this.$store.dispatch("setSelectedPlanName", this.planName);
