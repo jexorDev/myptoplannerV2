@@ -36,8 +36,8 @@ export default {
       return [
         {
           name: "Balance",
-          data: this.balanceByMonth.map((x) => x.runningTotal),
-        },
+          data: this.balanceByMonth.map(x => x.runningTotal)
+        }
       ];
     },
     chartOptions() {
@@ -46,30 +46,30 @@ export default {
           type: "area",
           height: 350,
           zoom: {
-            enabled: false,
-          },
+            enabled: false
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         stroke: {
-          curve: "straight",
+          curve: "straight"
         },
 
         title: {
-          enabled: false,
+          enabled: false
         },
-        labels: this.balanceByMonth.map((x) =>
+        labels: this.balanceByMonth.map(x =>
           moment(x.date).format("MM/DD/YYYY")
         ),
         xaxis: {
-          type: "datetime",
+          type: "datetime"
         },
         yaxis: {
-          opposite: true,
+          opposite: true
         },
         legend: {
-          horizontalAlign: "left",
+          horizontalAlign: "left"
         },
         annotations: {
           yaxis: [
@@ -82,15 +82,15 @@ export default {
                 text: "MAX",
                 style: {
                   color: "red",
-                  background: "pink",
-                },
-              },
-            },
+                  background: "pink"
+                }
+              }
+            }
           ],
-          xaxis: [],
-        },
+          xaxis: []
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>

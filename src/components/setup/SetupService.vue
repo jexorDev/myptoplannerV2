@@ -10,7 +10,7 @@
       <v-col>
         <DatePickerInMenu
           label="Date of Hire"
-          :selectedDate.sync="dateOfHireSync"
+          :selected-date.sync="dateOfHireSync"
         ></DatePickerInMenu>
       </v-col>
       <v-col></v-col>
@@ -48,8 +48,8 @@
     <v-row
       v-show="
         isDeveloperSync &&
-        participatesInFlexSync &&
-        flexScheduleTypeSync === 'full'
+          participatesInFlexSync &&
+          flexScheduleTypeSync === 'full'
       "
       no-gutters
     >
@@ -64,7 +64,7 @@
         <div>
           <DatePickerInMenu
             label="Flex Day"
-            :selectedDate.sync="flexDayReferenceDateSync"
+            :selected-date.sync="flexDayReferenceDateSync"
           ></DatePickerInMenu>
         </div>
       </v-col>
@@ -77,29 +77,29 @@ import DatePickerInMenu from "@/components/Inputs/DatePickerInMenu";
 export default {
   name: "SetupService",
   components: {
-    DatePickerInMenu,
+    DatePickerInMenu
   },
   props: {
     dateOfHire: {
       type: String,
-      required: true,
+      required: true
     },
     isDeveloper: {
       type: Boolean,
-      required: true,
+      required: true
     },
     participatesInFlex: {
       type: Boolean,
-      required: true,
+      required: true
     },
     flexScheduleType: {
       type: String,
-      required: true,
+      required: true
     },
     flexDayReferenceDate: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     dateOfHireSync: {
@@ -108,7 +108,7 @@ export default {
       },
       set(value) {
         this.$emit("update:dateOfHire", value);
-      },
+      }
     },
     isDeveloperSync: {
       get() {
@@ -116,7 +116,7 @@ export default {
       },
       set(value) {
         this.$emit("update:isDeveloper", value);
-      },
+      }
     },
     participatesInFlexSync: {
       get() {
@@ -124,7 +124,7 @@ export default {
       },
       set(value) {
         this.$emit("update:participatesInFlex", value);
-      },
+      }
     },
     flexScheduleTypeSync: {
       get() {
@@ -132,7 +132,7 @@ export default {
       },
       set(value) {
         this.$emit("update:flexScheduleType", value);
-      },
+      }
     },
     flexDayReferenceDateSync: {
       get() {
@@ -140,8 +140,8 @@ export default {
       },
       set(value) {
         this.$emit("update:flexDayReferenceDate", value);
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>

@@ -22,8 +22,8 @@ export default {
   props: {
     show: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     showSync: {
@@ -32,8 +32,8 @@ export default {
       },
       set(value) {
         this.$emit("update:show", value);
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>

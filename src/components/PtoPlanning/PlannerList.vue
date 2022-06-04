@@ -8,7 +8,7 @@
       <template v-slot:item.date="{ item }">
         {{ item.date | formatDate }}
       </template>
-     
+
       <template v-slot:item.hours="{ item }">
         <v-chip v-if="item.hours" :color="getEventColor(item.type)" dark label>
           {{ item.hours }}
@@ -33,8 +33,8 @@ export default {
     tableHeaders: [
       { text: "Date", value: "date" },
       { text: "Amount", value: "hours", align: "end" },
-      { text: "", value: "actions", width: "200", align: "end" },
-    ],
+      { text: "", value: "actions", width: "200", align: "end" }
+    ]
   }),
   computed: {
     aggregatedEventList() {
@@ -47,7 +47,7 @@ export default {
         this.totalPtoAccrualHours,
         this.$store.getters.selectedPlan.hoursToPlan
       );
-    },
+    }
   },
   methods: {
     getDescription(type) {
@@ -84,7 +84,7 @@ export default {
     },
     deletePto(date) {
       this.$emit("delete-pto", date);
-    },
-  },
+    }
+  }
 };
 </script>

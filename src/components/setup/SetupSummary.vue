@@ -13,8 +13,8 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              @click="showPtoAccrualDialog = true"
               v-bind="attrs"
+              @click="showPtoAccrualDialog = true"
               v-on="on"
               >mdi-information-outline</v-icon
             >
@@ -32,7 +32,7 @@
         <span class="primary--text">{{ hoursNeedToUse }}</span>
         hours prior to January 1, {{ planYearNumeric + 1 }}</v-timeline-item
       >
-      <v-timeline-item right small v-if="hoursToPlan > 0">
+      <v-timeline-item v-if="hoursToPlan > 0" right small>
         Your starting Banked PTO balance in {{ planYearNumeric + 1 }} will be
         <span class="primary--text">{{ nextYearBankedPto }}</span>
       </v-timeline-item>
@@ -79,33 +79,33 @@
 <script>
 export default {
   name: "SetupSummary",
-  data: () => ({
-    showPtoAccrualDialog: false,
-  }),
   props: {
     planYear: {
       type: String,
-      required: true,
+      required: true
     },
     bankedHoursFromPriorYear: {
       type: Number,
       required: false,
-      default: 0,
+      default: 0
     },
     hoursWillAccrueForPlanYear: {
       type: Number,
-      required: true,
+      required: true
     },
     hoursToPlan: {
       type: Number,
       required: false,
-      default: 0,
+      default: 0
     },
     ptoAccrualBreakdown: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
+  data: () => ({
+    showPtoAccrualDialog: false
+  }),
   computed: {
     hoursNeedToUse() {
       return this.hoursWillAccrueForPlanYear - this.hoursToPlan;
@@ -115,7 +115,7 @@ export default {
     },
     planYearNumeric() {
       return parseInt(this.planYear);
-    },
-  },
+    }
+  }
 };
 </script>

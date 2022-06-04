@@ -11,10 +11,8 @@
           </v-card-text>
         </v-card>
       </v-col>
-     
     </v-row>
     <v-row>
-     
       <v-col cols="6">
         <v-card class="dashboard-card">
           <v-card-title class="headline d-flex justify-center">
@@ -36,8 +34,8 @@ export default {
   name: "Dashboard",
   components: {
     WidgetHoursRemaining,
-    WidgetUsageByMonth,
-  },
+    WidgetUsageByMonth
+  }
 };
 </script>
 <style>

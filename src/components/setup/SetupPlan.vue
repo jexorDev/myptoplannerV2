@@ -6,8 +6,8 @@
       </v-col>
       <v-col cols="1">
         <v-select
-          :items="planYears"
           v-model="selectedPlanYearSync"
+          :items="planYears"
           label="Plan Year"
           :disabled="isPlanYearDisabled"
         ></v-select>
@@ -15,7 +15,6 @@
       <v-col></v-col>
     </v-row>
 
-    
     <v-row>
       <v-col cols="4">
         <div>
@@ -26,12 +25,12 @@
         </div>
       </v-col>
       <v-col cols="5">
-         <v-text-field
-              v-model="hoursToPlanSync"
-              class="mt-0 pt-0"
-              type="number"
-              style="width: 60px"
-            ></v-text-field>
+        <v-text-field
+          v-model="hoursToPlanSync"
+          class="mt-0 pt-0"
+          type="number"
+          style="width: 60px"
+        ></v-text-field>
       </v-col>
       <v-col></v-col>
     </v-row>
@@ -52,12 +51,14 @@
           label="Plan Name"
           hide-details="auto"
           :prefix="`${selectedPlanYearSync} - `"
-          :placeholder="`ex: My ${selectedPlanYearSync} plan with trips to Gulf Shores and Orlando!`"
+          :placeholder="
+            `ex: My ${selectedPlanYearSync} plan with trips to Gulf Shores and Orlando!`
+          "
         ></v-text-field>
       </v-col>
     </v-row>
 
-     <v-row no-gutters>
+    <v-row no-gutters>
       <v-col cols="4">
         <v-checkbox
           v-model="isDeveloperSync"
@@ -89,8 +90,8 @@
     <v-row
       v-show="
         isDeveloperSync &&
-        participatesInFlexSync &&
-        flexScheduleTypeSync === 'full'
+          participatesInFlexSync &&
+          flexScheduleTypeSync === 'full'
       "
       no-gutters
     >
@@ -105,7 +106,7 @@
         <div>
           <DatePickerInMenu
             label="Flex Day"
-            :selectedDate.sync="flexDayReferenceDateSync"
+            :selected-date.sync="flexDayReferenceDateSync"
           ></DatePickerInMenu>
         </div>
       </v-col>
@@ -118,39 +119,35 @@ import DatePickerInMenu from "@/components/Inputs/DatePickerInMenu";
 
 export default {
   name: "SetupPlan",
-  components: { DatePickerInMenu},
-  data: () => ({
-    planYears: [moment().year().toString(), (moment().year() + 1).toString()],
-    maxHoursCanRollover: 0,
-  }),
+  components: { DatePickerInMenu },
   props: {
     selectedPlanYear: {
       type: String,
-      required: true,
+      required: true
     },
     planName: {
       type: String,
-      required: true,
+      required: true
     },
     hoursToPlan: {
       type: Number,
-      required: true,
+      required: true
     },
-     isDeveloper: {
+    isDeveloper: {
       type: Boolean,
-      required: true,
+      required: true
     },
     participatesInFlex: {
       type: Boolean,
-      required: true,
+      required: true
     },
     flexScheduleType: {
       type: String,
-      required: true,
+      required: true
     },
     flexDayReferenceDate: {
       type: String,
-      required: true,
+      required: true
     },
     isPlanYearDisabled: {
       type: Boolean,
@@ -158,9 +155,15 @@ export default {
       default: false
     }
   },
-  mounted() {
-    this.selectedPlanYearSync = moment().year().toString();
-  },
+  data: () => ({
+    planYears: [
+      moment()
+        .year()
+        .toString(),
+      (moment().year() + 1).toString()
+    ],
+    maxHoursCanRollover: 0
+  }),
   computed: {
     selectedPlanYearSync: {
       get() {
@@ -168,7 +171,7 @@ export default {
       },
       set(value) {
         this.$emit("update:selectedPlanYear", value);
-      },
+      }
     },
     planYearNumeric() {
       return parseInt(this.selectedPlanYearSync);
@@ -179,7 +182,7 @@ export default {
       },
       set(value) {
         this.$emit("update:planName", `${this.selectedPlanYear} - ${value}`);
-      },
+      }
     },
     hoursToPlanSync: {
       get() {
@@ -187,7 +190,7 @@ export default {
       },
       set(value) {
         this.$emit("update:hoursToPlan", parseFloat(value));
-      },
+      }
     },
     isDeveloperSync: {
       get() {
@@ -195,7 +198,7 @@ export default {
       },
       set(value) {
         this.$emit("update:isDeveloper", value);
-      },
+      }
     },
     participatesInFlexSync: {
       get() {
@@ -203,7 +206,7 @@ export default {
       },
       set(value) {
         this.$emit("update:participatesInFlex", value);
-      },
+      }
     },
     flexScheduleTypeSync: {
       get() {
@@ -211,7 +214,7 @@ export default {
       },
       set(value) {
         this.$emit("update:flexScheduleType", value);
-      },
+      }
     },
     flexDayReferenceDateSync: {
       get() {
@@ -219,8 +222,13 @@ export default {
       },
       set(value) {
         this.$emit("update:flexDayReferenceDate", value);
-      },
-    },
+      }
+    }
   },
+  mounted() {
+    this.selectedPlanYearSync = moment()
+      .year()
+      .toString();
+  }
 };
 </script>

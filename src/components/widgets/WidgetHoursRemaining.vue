@@ -28,9 +28,7 @@ export default {
   mixins: [plannerMixin],
   computed: {
     totalPtoToPlan() {
-      return (
-        this.$store.getters.selectedPlan.hoursToPlan
-      );
+      return this.$store.getters.selectedPlan.hoursToPlan;
     },
     remainingPtoToPlan() {
       return this.totalPtoToPlan - this.totalPtoPlanned;
@@ -39,7 +37,7 @@ export default {
       return this.totalPtoToPlan > 0
         ? (this.totalPtoPlanned / this.totalPtoToPlan) * 100
         : 0;
-    },
-  },
+    }
+  }
 };
 </script>

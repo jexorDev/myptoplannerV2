@@ -1,13 +1,13 @@
 <template>
   <div>
-       <v-row>
+    <v-row>
       <v-col cols="9">
         <div v-show="viewType === 'calendar'">
           <PlannerCalendar
-            :ptoDates="ptoDates"
+            :pto-dates="ptoDates"
             :holidays="holidays"
-            :flexDays="flexDays"
-            :payDays="payDays"
+            :flex-days="flexDays"
+            :pay-days="payDays"
             @delete-pto="deletePto"
             @focus-changed="calendarDateChanged"
           ></PlannerCalendar>
@@ -17,36 +17,36 @@
         </div>
       </v-col>
       <v-col>
-         <div class="overline">View Type</div>
+        <div class="overline">View Type</div>
         <v-btn-toggle v-model="viewType" mandatory dense>
           <v-btn value="calendar"> Calendar </v-btn>
           <v-btn value="list"> List </v-btn>
         </v-btn-toggle>
 
-<v-divider class="mt-3"></v-divider>
+        <v-divider class="mt-3"></v-divider>
 
         <div class="overline">Entry</div>
 
-          <v-btn-toggle v-model="entryType" mandatory dense>
-            <v-btn value="single"> Single Day </v-btn>
-            <v-btn value="multiple"> Multiple Days </v-btn>
-          </v-btn-toggle>
+        <v-btn-toggle v-model="entryType" mandatory dense>
+          <v-btn value="single"> Single Day </v-btn>
+          <v-btn value="multiple"> Multiple Days </v-btn>
+        </v-btn-toggle>
 
-            <div v-if="entryType === 'multiple'">
+        <div v-if="entryType === 'multiple'">
           <div class="d-flex justify-start">
             <div class="mr-2 mt-3 mb-0" style="width: 110px">
               <DatePickerInMenu
                 label="From"
-                :selectedDate.sync="groupEntryStartDate"
-                :showIcon="false"
+                :selected-date.sync="groupEntryStartDate"
+                :show-icon="false"
               ></DatePickerInMenu>
             </div>
 
             <div class="mr-2 mt-3" style="width: 110px">
               <DatePickerInMenu
                 label="To"
-                :selectedDate.sync="groupEntryEndDate"
-                :showIcon="false"
+                :selected-date.sync="groupEntryEndDate"
+                :show-icon="false"
               ></DatePickerInMenu>
             </div>
           </div>
@@ -56,11 +56,10 @@
             <div style="width: 110px" class="mt-3">
               <DatePickerInMenu
                 label="Day"
-                :selectedDate.sync="singleEntryDate"
-                :showIcon="false"
+                :selected-date.sync="singleEntryDate"
+                :show-icon="false"
               ></DatePickerInMenu>
             </div>
-           
           </div>
         </div>
         <div class="font-weight-light font-italic mt-7 d-inline">
@@ -70,7 +69,7 @@
           >Enter</v-btn
         >
 
-<v-divider class="mt-3"></v-divider>
+        <v-divider class="mt-3"></v-divider>
 
         <div class="mt-3">
           <div class="overline">Status</div>
@@ -89,20 +88,20 @@ import { getIsoDateString } from "@/functions/dateHelpers";
 import {
   getPtoDaysForRange,
   getPtoDayForSingle,
-  getTotalPtoHours,
+  getTotalPtoHours
 } from "@/functions/ptoHoursCalculator";
 import plannerMixin from "@/mixins/plannerMixin";
 import moment from "moment";
 
 export default {
   name: "Planner",
-  mixins: [plannerMixin],
   components: {
     PlannerCalendar,
     PlannerList,
     DatePickerInMenu,
-    WidgetHoursRemaining,
+    WidgetHoursRemaining
   },
+  mixins: [plannerMixin],
   data: () => ({
     viewType: "calendar",
     entryType: "single",
@@ -112,10 +111,10 @@ export default {
     singleEntryIsAllDay: true,
     singleEntryHours: 0,
     meridianList: ["AM", "PM", "None"],
-    selectedMeridian: "AM",
+    selectedMeridian: "AM"
   }),
   computed: {
-    totalHours: function () {
+    totalHours: function() {
       return this.entryType === "single"
         ? getTotalPtoHours(
             getPtoDayForSingle(
@@ -134,7 +133,7 @@ export default {
               this.$store.getters.selectedPlan.flexScheduleType
             )
           );
-    },
+    }
   },
   methods: {
     addPto() {
@@ -158,20 +157,20 @@ export default {
 
       this.$store.dispatch("addPtoDates", {
         planName: this.$store.getters.selectedPlanName,
-        pto: ptoDays,
+        pto: ptoDays
       });
     },
     deletePto(date) {
       this.$store.dispatch("deletePtoDates", {
         planName: this.$store.getters.selectedPlanName,
-        date: moment(date).format("YYYY-MM-DD"),
+        date: moment(date).format("YYYY-MM-DD")
       });
     },
     calendarDateChanged(date) {
       this.singleEntryDate = getIsoDateString(moment(date));
       this.groupEntryStartDate = getIsoDateString(moment(date));
       this.groupEntryEndDate = getIsoDateString(moment(date).add(1, "day"));
-    },
-  },
+    }
+  }
 };
 </script>

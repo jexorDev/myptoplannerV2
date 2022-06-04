@@ -2,14 +2,14 @@
   <div class="mx-auto">
     <div class="display-1 headline">Plan Information</div>
     <SetupPlan
-      :selectedPlanYear="planYear"
-      :planName.sync="planName"
-      :hoursToPlan.sync="hoursToPlan"
-      :isDeveloper="isDeveloper"
-      :participatesInFlex="participatesInFlex"
-      :flexScheduleType="flexScheduleType"
-      :flexDayReferenceDate="flexDayReferenceDate"
-      :isPlanYearDisabled="true"
+      :selected-plan-year="planYear"
+      :plan-name.sync="planName"
+      :hours-to-plan.sync="hoursToPlan"
+      :is-developer="isDeveloper"
+      :participates-in-flex="participatesInFlex"
+      :flex-schedule-type="flexScheduleType"
+      :flex-day-reference-date="flexDayReferenceDate"
+      :is-plan-year-disabled="true"
     ></SetupPlan>
     <v-row>
       <v-col>
@@ -18,14 +18,14 @@
       <v-col class="d-flex justify-end mr-5">
         <v-btn
           color="primary"
-          @click="savePlanInfoChanges"
           :disabled="planButtonsDisabled"
+          @click="savePlanInfoChanges"
           >Save</v-btn
         >
         <v-btn
           text
-          @click="cancelPlanInfoChanges"
           :disabled="planButtonsDisabled"
+          @click="cancelPlanInfoChanges"
           >Cancel</v-btn
         >
       </v-col>
@@ -57,7 +57,7 @@ export default {
   name: "Settings",
 
   components: {
-    SetupPlan,
+    SetupPlan
   },
   data: () => ({
     showUnsavedChangesDialog: false,
@@ -74,8 +74,28 @@ export default {
     planName: "",
     oldPlanName: "",
     planYear: "",
-    planCreated: "",
+    planCreated: ""
   }),
+  computed: {
+    planButtonsDisabled() {
+      return (
+        this.planName === this.oldPlanName &&
+        this.hoursToPlan === this.oldhoursToPlan &&
+        this.isDeveloper === this.oldIsDeveloper &&
+        this.participatesInFlex === this.oldParticipatesInFlex &&
+        this.flexScheduleType === this.oldFlexScheduleType &&
+        this.flexDayReferenceDate === this.oldFlexDayReferenceDate
+      );
+    },
+    selectedPlanName() {
+      return this.$store.getters.selectedPlanName;
+    }
+  },
+  watch: {
+    selectedPlanName() {
+      this.intiializeFields();
+    }
+  },
   mounted() {
     this.intiializeFields();
   },
@@ -114,13 +134,13 @@ export default {
           isDeveloper: this.isDeveloper,
           participatesInFlex: this.participatesInFlex,
           flexScheduleType: this.flexScheduleType,
-          flexDayReferenceDate: this.flexDayReferenceDate,
-        },
+          flexDayReferenceDate: this.flexDayReferenceDate
+        }
       });
 
       this.oldPlanName = this.planName;
       this.oldhoursToPlan = this.hoursToPlan;
-        this.oldIsDeveloper = this.isDeveloper;
+      this.oldIsDeveloper = this.isDeveloper;
       this.oldParticipatesInFlex = this.participatesInFlex;
       this.oldFlexScheduleType = this.flexScheduleType;
       this.oldFlexDayReferenceDate = this.flexDayReferenceDate;
@@ -138,13 +158,13 @@ export default {
     },
     deletePlan() {
       if (
-        this.$store.state.plans.filter((plan) => plan.name !== this.oldPlanName)
+        this.$store.state.plans.filter(plan => plan.name !== this.oldPlanName)
           .length > 0
       ) {
         this.$store.dispatch(
           "setSelectedPlanName",
           this.$store.state.plans.filter(
-            (plan) => plan.name !== this.oldPlanName
+            plan => plan.name !== this.oldPlanName
           )[0].name
         );
         this.$store.dispatch("deletePlan", this.oldPlanName);
@@ -158,22 +178,7 @@ export default {
     deleteAccount() {
       this.$store.dispatch("deleteAccount");
       this.$router.push({ route: "/start" });
-    },
-  },
-  computed: {
-    planButtonsDisabled() {
-      return (
-        this.planName === this.oldPlanName &&
-        this.hoursToPlan === this.oldhoursToPlan &&
-        this.isDeveloper === this.oldIsDeveloper &&
-        this.participatesInFlex === this.oldParticipatesInFlex &&
-        this.flexScheduleType === this.oldFlexScheduleType &&
-        this.flexDayReferenceDate === this.oldFlexDayReferenceDate
-      );
-    },
-    selectedPlanName() {
-      return this.$store.getters.selectedPlanName;
-    },
+    }
   },
   beforeRouteLeave(to, from, next) {
     if (!this.planButtonsDisabled) {
@@ -181,11 +186,6 @@ export default {
       return;
     }
     next();
-  },
-  watch: {
-    selectedPlanName() {
-      this.intiializeFields();
-    },
-  },
+  }
 };
 </script>

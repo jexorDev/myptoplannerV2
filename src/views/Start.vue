@@ -73,6 +73,6 @@
 </template>
 <script>
 export default {
-  name: "Start",
+  name: "Start"
 };
 </script>

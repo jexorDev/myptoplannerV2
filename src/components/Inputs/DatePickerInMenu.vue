@@ -39,21 +39,13 @@ export default {
     showIcon: {
       type: Boolean,
       required: false,
-      default: true,
-    },
-  },
-  mounted() {
-    this.selectedDateFormatted = formatDate(this.selectedDate);
+      default: true
+    }
   },
   data: () => ({
     showMenu: false,
-    selectedDateFormatted: "",
+    selectedDateFormatted: ""
   }),
-  watch: {
-    selectedDate() {
-      this.selectedDateFormatted = formatDate(this.selectedDate);
-    },
-  },
   computed: {
     selectedDateSync: {
       get() {
@@ -61,8 +53,16 @@ export default {
       },
       set(value) {
         this.$emit("update:selectedDate", getIsoDateString(value));
-      },
-    },
+      }
+    }
+  },
+  watch: {
+    selectedDate() {
+      this.selectedDateFormatted = formatDate(this.selectedDate);
+    }
+  },
+  mounted() {
+    this.selectedDateFormatted = formatDate(this.selectedDate);
   },
   methods: {
     setSelectedDate() {
@@ -70,7 +70,7 @@ export default {
         "update:selectedDate",
         getIsoDateString(this.selectedDateFormatted)
       );
-    },
-  },
+    }
+  }
 };
 </script>

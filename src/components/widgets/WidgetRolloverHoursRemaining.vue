@@ -34,10 +34,7 @@ export default {
     remainingRolloverHours() {
       const remainingHours = this.totalPtoAccrualHours - this.totalPtoPlanned;
 
-      if (
-        remainingHours - this.$store.getters.selectedPlan.hoursToPlan >=
-        0
-      ) {
+      if (remainingHours - this.$store.getters.selectedPlan.hoursToPlan >= 0) {
         return this.$store.getters.selectedPlan.hoursToPlan;
       } else {
         if (remainingHours > 0) {
@@ -67,7 +64,7 @@ export default {
         this.$store.getters.selectedPlan.hoursToPlan > 0 &&
         this.remainingRolloverHoursPercent !== 100
       );
-    },
-  },
+    }
+  }
 };
 </script>

@@ -30,7 +30,7 @@ export default {
         this.$store.getters.selectedPlan.hoursBankedPrior +
         Math.min(this.totalPtoAccrualHours - this.totalPtoPlanned, 40)
       );
-    },
-  },
+    }
+  }
 };
 </script>

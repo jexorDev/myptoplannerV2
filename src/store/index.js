@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -39,51 +39,72 @@ export default new Vuex.Store({
       state.plans = [...payload];
     },
     setPtoDates(state, payload) {
-      state.ptoDates = payload
+      state.ptoDates = payload;
     }
   },
   actions: {
     setState({ commit }, payload) {
-      commit('setState', payload);
+      commit("setState", payload);
     },
     setSelectedPlanName({ commit }, payload) {
-      commit('setSelectedPlanName', payload);
+      commit("setSelectedPlanName", payload);
     },
-    setUserInfo({ commit, state }, payload) {      
-      commit('setUserInfo', payload);
-      localStorage.setItem('state', JSON.stringify(state));
+    setUserInfo({ commit, state }, payload) {
+      commit("setUserInfo", payload);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     addPlan({ commit, state }, payload) {
-      commit('setPlans', [...state.plans, payload]);
-      localStorage.setItem('state', JSON.stringify(state));
+      commit("setPlans", [...state.plans, payload]);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     updatePlan({ commit, state }, payload) {
-      const existingPlans = state.plans.filter(plan => plan.name !== payload.originalName);
-      commit('setPlans', [...existingPlans, payload.updatedPlan]);
-      localStorage.setItem('state', JSON.stringify(state));
+      const existingPlans = state.plans.filter(
+        plan => plan.name !== payload.originalName
+      );
+      commit("setPlans", [...existingPlans, payload.updatedPlan]);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     deletePlan({ commit, state }, payload) {
-      commit('setPlans', [...state.plans.filter(plan => plan.name !== payload)]);  
-      localStorage.setItem('state', JSON.stringify(state));
+      commit("setPlans", [
+        ...state.plans.filter(plan => plan.name !== payload)
+      ]);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     addPtoDates({ commit, state }, payload) {
-      const newDates = [];      
+      const newDates = [];
       for (let pto of payload.pto) {
-        newDates.push({ plan: payload.planName, date: pto.date, hours: pto.hours });
+        newDates.push({
+          plan: payload.planName,
+          date: pto.date,
+          hours: pto.hours
+        });
       }
-      const newPtoDates = [...state.ptoDates.filter(ptoDate => !newDates.find(newDate => newDate.plan === ptoDate.plan && newDate.date === ptoDate.date)), ...newDates];
-    
-      commit('setPtoDates', newPtoDates);
-      localStorage.setItem('state', JSON.stringify(state));
+      const newPtoDates = [
+        ...state.ptoDates.filter(
+          ptoDate =>
+            !newDates.find(
+              newDate =>
+                newDate.plan === ptoDate.plan && newDate.date === ptoDate.date
+            )
+        ),
+        ...newDates
+      ];
 
+      commit("setPtoDates", newPtoDates);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     deletePtoDates({ commit, state }, payload) {
-      commit('setPtoDates', [...state.ptoDates.filter(ptoDate => ptoDate.planName !== payload.planName && ptoDate.date !== payload.date)] )
-      localStorage.setItem('state', JSON.stringify(state));
-
+      commit("setPtoDates", [
+        ...state.ptoDates.filter(
+          ptoDate =>
+            ptoDate.planName !== payload.planName &&
+            ptoDate.date !== payload.date
+        )
+      ]);
+      localStorage.setItem("state", JSON.stringify(state));
     },
     deleteAccount() {
-      localStorage.removeItem('state');
+      localStorage.removeItem("state");
       location.reload();
     }
   },
@@ -92,7 +113,9 @@ export default new Vuex.Store({
       return state.selectedPlanName;
     },
     selectedPlan: state => {
-      return state.selectedPlanName === "" ? {} : state.plans.find(plan => plan.name === state.selectedPlanName);
+      return state.selectedPlanName === ""
+        ? {}
+        : state.plans.find(plan => plan.name === state.selectedPlanName);
     },
     userInfo: state => {
       return {
@@ -104,10 +127,10 @@ export default new Vuex.Store({
       };
     },
     ptoDates: state => {
-      return state.ptoDates.filter(ptoDate => ptoDate.plan === state.selectedPlanName);
-    },
+      return state.ptoDates.filter(
+        ptoDate => ptoDate.plan === state.selectedPlanName
+      );
+    }
   },
-  modules: {
-  }
-})
-
+  modules: {}
+});

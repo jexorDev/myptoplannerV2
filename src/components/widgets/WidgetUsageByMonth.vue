@@ -22,8 +22,8 @@ export default {
       return [
         {
           name: "Usage",
-          data: this.balanceByMonth.map((x) => x.totalPto),
-        },
+          data: this.balanceByMonth.map(x => x.totalPto)
+        }
       ];
     },
     chartOptions() {
@@ -32,23 +32,23 @@ export default {
           type: "bar",
           height: 350,
           zoom: {
-            enabled: false,
-          },
+            enabled: false
+          }
         },
         toolbar: null,
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
 
         title: {
-          enabled: false,
+          enabled: false
         },
-        labels: this.balanceByMonth.map((x) => x.month),
+        labels: this.balanceByMonth.map(x => x.month),
         xaxis: {
-          type: "string",
-        },
+          type: "string"
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>

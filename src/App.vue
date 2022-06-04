@@ -8,8 +8,8 @@
       <div class="d-flex align-center mt-2">
         <v-select
           v-if="plans.length > 0"
-          :items="plans"
           v-model="selectedPlan"
+          :items="plans"
           outlined
           dense
           class="mt-2"
@@ -22,11 +22,11 @@
     </v-app-bar>
 
     <v-navigation-drawer
+      v-show="plans.length > 0"
       app
       clipped
       expand-on-hover
       permanent
-      v-show="plans.length > 0"
     >
       <v-list>
         <v-list-item link to="/">
@@ -105,15 +105,15 @@ export default {
   name: "App",
   components: {
     DialogGoogleFormFeedback,
-    DialogGoogleFormReportBug,
+    DialogGoogleFormReportBug
   },
   data: () => ({
     showFeedbackDialog: false,
-    showReportBugDialog: false,
+    showReportBugDialog: false
   }),
   computed: {
     plans() {
-      return this.$store.state.plans.map((plan) => plan.name);
+      return this.$store.state.plans.map(plan => plan.name);
     },
     selectedPlan: {
       get() {
@@ -121,10 +121,10 @@ export default {
       },
       set(value) {
         this.$store.dispatch("setSelectedPlanName", value);
-      },
-    },
+      }
+    }
   },
-  created: function () {
+  created: function() {
     const stateFromStorage = localStorage.getItem("state");
 
     if (stateFromStorage) {
@@ -140,6 +140,6 @@ export default {
       this.selectedPlan = this.$store.state.plans[0].name;
       this.$store.dispatch("setSelectedPlanName", this.selectedPlan);
     }
-  },
+  }
 };
 </script>

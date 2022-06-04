@@ -16,15 +16,14 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <SetupService
-            :dateOfHire.sync="dateOfHire"
-            :isDeveloper.sync="isDeveloper"
-            :participatesInFlex.sync="participatesInFlex"
-            :flexScheduleType.sync="flexScheduleType"
-            :flexDayReferenceDate.sync="flexDayReferenceDate"
+            :date-of-hire.sync="dateOfHire"
+            :is-developer.sync="isDeveloper"
+            :participates-in-flex.sync="participatesInFlex"
+            :flex-schedule-type.sync="flexScheduleType"
+            :flex-day-reference-date.sync="flexDayReferenceDate"
           ></SetupService>
           <v-row class="mt-4">
             <v-col class="d-flex justify-end">
-
               <v-btn color="primary" @click="step++"
                 >Next<v-icon>mdi-chevron-right</v-icon></v-btn
               >
@@ -34,11 +33,11 @@
 
         <v-stepper-content step="2">
           <SetupPlan
-            :selectedPlanYear.sync="selectedPlanYear"
-            :planName.sync="planName"
-            :hoursToPlan.sync="hoursToPlan"
-            :bankedHoursFromPriorYear.sync="bankedHoursFromPriorYear"
-            :dateOfHire="dateOfHire"
+            :selected-plan-year.sync="selectedPlanYear"
+            :plan-name.sync="planName"
+            :hours-to-plan.sync="hoursToPlan"
+            :banked-hours-from-prior-year.sync="bankedHoursFromPriorYear"
+            :date-of-hire="dateOfHire"
           ></SetupPlan>
 
           <v-row class="mt-4">
@@ -64,11 +63,11 @@
             <v-col>
               <SetupSummary
                 v-if="ptoBreakdown"
-                :planYear="selectedPlanYear"
-                :bankedHoursFromPriorYear="bankedHoursFromPriorYear"
-                :hoursWillAccrueForPlanYear="hoursWillAccrueForPlanYear"
-                :hoursToPlan="hoursToPlan"
-                :ptoAccrualBreakdown="ptoBreakdown.breakdown"
+                :plan-year="selectedPlanYear"
+                :banked-hours-from-prior-year="bankedHoursFromPriorYear"
+                :hours-will-accrue-for-plan-year="hoursWillAccrueForPlanYear"
+                :hours-to-plan="hoursToPlan"
+                :pto-accrual-breakdown="ptoBreakdown.breakdown"
               ></SetupSummary>
             </v-col>
           </v-row>
@@ -102,7 +101,7 @@ export default {
   components: {
     SetupPlan,
     SetupSummary,
-    SetupService,
+    SetupService
   },
   data: () => ({
     step: 1,
@@ -117,9 +116,14 @@ export default {
     planName: "",
     selectedPlanYear: "",
     hoursToPlan: 0,
-    bankedHoursFromPriorYear: 0,
+    bankedHoursFromPriorYear: 0
   }),
-  mounted: function () {
+  computed: {
+    hoursWillAccrueForPlanYear() {
+      return this.ptoBreakdown === null ? 0 : this.ptoBreakdown.totalHours;
+    }
+  },
+  mounted: function() {
     if (this.$store.getters.userInfo.dateOfHire !== "") {
       this.dateOfHire = this.$store.getters.userInfo.dateOfHire;
       this.isDeveloper = this.$store.getters.userInfo.isDeveloper;
@@ -128,11 +132,6 @@ export default {
       this.flexDayReferenceDate = this.$store.getters.userInfo.flexDayReferenceDate;
       this.step = 2;
     }
-  },
-  computed: {
-    hoursWillAccrueForPlanYear() {
-      return this.ptoBreakdown === null ? 0 : this.ptoBreakdown.totalHours;
-    },
   },
   methods: {
     moveToReviewStep() {
@@ -150,18 +149,18 @@ export default {
         flexScheduleType: this.flexScheduleType,
         flexDayReferenceDate: moment(this.flexDayReferenceDate).format(
           "YYYY-MM-DD"
-        ),
+        )
       });
       this.$store.dispatch("addPlan", {
         name: this.planName,
         created: moment(),
         year: this.selectedPlanYear,
         hoursToPlan: this.hoursToPlan,
-        hoursBankedPrior: this.bankedHoursFromPriorYear,
+        hoursBankedPrior: this.bankedHoursFromPriorYear
       });
       this.$store.dispatch("setSelectedPlanName", this.planName);
       this.$router.push({ path: "/" });
-    },
-  },
+    }
+  }
 };
 </script>

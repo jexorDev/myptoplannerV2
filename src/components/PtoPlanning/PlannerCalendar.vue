@@ -32,8 +32,8 @@
         <v-sheet :height="600">
           <v-calendar
             ref="calendar"
-            type="month"
             v-model="focus"
+            type="month"
             :events="events"
             :event-color="getEventColor"
             @click:event="showEvent"
@@ -72,47 +72,43 @@ import moment from "moment";
 
 export default {
   name: "PlannerCalendar",
-  data: () => ({
-    focus: "",
-    selectedEvent: {},
-    selectedElement: null,
-    selectedOpen: false,
-  }),
   props: {
     planYear: Number,
     ptoDates: Array,
     holidays: Array,
     flexDays: Array,
-    payDays: Array,
+    payDays: Array
   },
-  mounted() {
-    this.$refs.calendar.checkChange();
-    this.setSelectedDate();
-  },
+  data: () => ({
+    focus: "",
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false
+  }),
   computed: {
-    events: function () {
+    events: function() {
       return [
-        ...this.ptoDates.map((ptoDate) => ({
+        ...this.ptoDates.map(ptoDate => ({
           name: `Usage: ${ptoDate.hours} hrs`,
           start: ptoDate.date,
           color: "purple",
           timed: false,
-          type: "pto",
+          type: "pto"
         })),
-        ...this.holidays.map((holiday) => ({
+        ...this.holidays.map(holiday => ({
           name: holiday.description,
           start: holiday.date,
           color: "pink",
           timed: false,
-          type: "holiday",
+          type: "holiday"
         })),
-        ...this.flexDays.map((flexDay) => ({
+        ...this.flexDays.map(flexDay => ({
           name: "Flex Day",
           start: flexDay,
           color: "blue",
           timed: false,
-          type: "flex",
-        })),
+          type: "flex"
+        }))
       ];
     },
     canMovePreviousMonth() {
@@ -120,7 +116,20 @@ export default {
     },
     canMoveNextMonth() {
       return moment(this.focus).month() !== 11;
+    }
+  },
+  watch: {
+    focus() {
+      this.$emit("focus-changed", this.focus);
     },
+    planYear() {
+      console.log("log");
+      this.setSelectedDate();
+    }
+  },
+  mounted() {
+    this.$refs.calendar.checkChange();
+    this.setSelectedDate();
   },
   methods: {
     deletePto(date) {
@@ -168,16 +177,7 @@ export default {
           "YYYY-MM-DD"
         );
       }
-    },
-  },
-  watch: {
-    focus() {
-      this.$emit("focus-changed", this.focus);
-    },
-    planYear() {
-      console.log("log");
-      this.setSelectedDate();
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,22 +1,19 @@
 <template>
   <div>
+    <SetupPlan
+      :selected-plan-year.sync="selectedPlanYear"
+      :plan-name.sync="planName"
+      :hours-to-plan.sync="hoursToPlan"
+      :is-developer.sync="isDeveloper"
+      :participates-in-flex.sync="participatesInFlex"
+      :flex-schedule-type.sync="flexScheduleType"
+      :flex-day-reference-date.sync="flexDayReferenceDate"
+    ></SetupPlan>
 
-          <SetupPlan
-            :selectedPlanYear.sync="selectedPlanYear"
-            :planName.sync="planName"
-            :hoursToPlan.sync="hoursToPlan"
-            :isDeveloper.sync="isDeveloper"
-            :participatesInFlex.sync="participatesInFlex"
-            :flexScheduleType.sync="flexScheduleType"
-            :flexDayReferenceDate.sync="flexDayReferenceDate"
-          ></SetupPlan>
-
-           <v-btn color="success" outlined @click="savePlan"
-                ><v-icon class="mr-1">mdi-check-circle-outline</v-icon>Save and
-                begin planning PTO</v-btn
-              >
-
-       
+    <v-btn color="success" outlined @click="savePlan"
+      ><v-icon class="mr-1">mdi-check-circle-outline</v-icon>Save and begin
+      planning PTO</v-btn
+    >
   </div>
 </template>
 
@@ -28,8 +25,7 @@ import moment from "moment";
 export default {
   name: "PlanAdd",
   components: {
-    SetupPlan,
-    
+    SetupPlan
   },
   data: () => ({
     participatesInFlex: false,
@@ -38,11 +34,9 @@ export default {
     planName: "",
     selectedPlanYear: "",
     hoursToPlan: 200,
-    isDeveloper: false,
-    
+    isDeveloper: false
   }),
   methods: {
-   
     savePlan() {
       // this.$store.dispatch("setUserInfo", {
       //   dateOfHire: this.dateOfHire,
@@ -54,10 +48,9 @@ export default {
       //   ),
       // });
       if (this.planName === "") {
-        alert('Please enter a plan name');
+        alert("Please enter a plan name");
         return;
       }
-
 
       this.$store.dispatch("addPlan", {
         name: this.planName,
@@ -69,11 +62,11 @@ export default {
         flexScheduleType: this.flexScheduleType,
         flexDayReferenceDate: moment(this.flexDayReferenceDate).format(
           "YYYY-MM-DD"
-        ),
+        )
       });
       this.$store.dispatch("setSelectedPlanName", this.planName);
       this.$router.push({ path: "/" });
-    },
-  },
+    }
+  }
 };
 </script>
