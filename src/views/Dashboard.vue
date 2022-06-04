@@ -11,6 +11,16 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <v-col cols="3">
+        <v-card class="dashboard-card">
+          <v-card-title class="headline d-flex justify-center"
+            >Upcoming</v-card-title
+          >
+          <v-card-text>
+            <WidgetUpcomingVacation></WidgetUpcomingVacation>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
@@ -29,12 +39,14 @@
 <script>
 import WidgetHoursRemaining from "@/components/widgets/WidgetHoursRemaining";
 import WidgetUsageByMonth from "@/components/widgets/WidgetUsageByMonth";
+import WidgetUpcomingVacation from "@/components/widgets/WidgetUpcomingVacation";
 
 export default {
   name: "Dashboard",
   components: {
     WidgetHoursRemaining,
-    WidgetUsageByMonth
+    WidgetUsageByMonth,
+    WidgetUpcomingVacation
   }
 };
 </script>

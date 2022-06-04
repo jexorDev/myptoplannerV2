@@ -60,6 +60,20 @@
                 :show-icon="false"
               ></DatePickerInMenu>
             </div>
+            <div class="mt-3 ml-2">
+              <v-checkbox
+                v-model="singleEntryIsAllDay"
+                label="All Day"
+              ></v-checkbox>
+            </div>
+            <div v-if="!singleEntryIsAllDay" class="mt-3 ml-2 d-flex">
+              <v-text-field
+                v-model="singleEntryHours"
+                type="number"
+                label="Hours"
+                style="width: 60px"
+              ></v-text-field>
+            </div>
           </div>
         </div>
         <div class="font-weight-light font-italic mt-7 d-inline">

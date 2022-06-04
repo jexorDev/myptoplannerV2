@@ -2,13 +2,13 @@
   <div class="mx-auto">
     <div class="display-1 headline">Plan Information</div>
     <SetupPlan
-      :selected-plan-year="planYear"
+      :selected-plan-year.sync="planYear"
       :plan-name.sync="planName"
       :hours-to-plan.sync="hoursToPlan"
-      :is-developer="isDeveloper"
-      :participates-in-flex="participatesInFlex"
-      :flex-schedule-type="flexScheduleType"
-      :flex-day-reference-date="flexDayReferenceDate"
+      :is-developer.sync="isDeveloper"
+      :participates-in-flex.sync="participatesInFlex"
+      :flex-schedule-type.sync="flexScheduleType"
+      :flex-day-reference-date.sync="flexDayReferenceDate"
       :is-plan-year-disabled="true"
     ></SetupPlan>
     <v-row>
