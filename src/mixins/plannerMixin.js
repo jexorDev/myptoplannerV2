@@ -10,9 +10,9 @@ export default {
             return this.$store.getters.ptoDates;
         },
         flexDays() {
-            return this.$store.getters.userInfo.participatesInFlex
-                ? this.$store.getters.userInfo.flexScheduleType === "full"
-                    ? getFlexDaysFullScheduleType(this.$store.getters.userInfo.flexDayReferenceDate, this.$store.getters.selectedPlan.year)
+            return this.$store.getters.selectedPlan.participatesInFlex
+                ? this.$store.getters.selectedPlan.flexScheduleType === "full"
+                    ? getFlexDaysFullScheduleType(this.$store.getters.selectedPlan.flexDayReferenceDate, this.$store.getters.selectedPlan.year)
                     : getFlexDaysHalfScheduleType(this.$store.getters.selectedPlan.year)
                 : [];
         },

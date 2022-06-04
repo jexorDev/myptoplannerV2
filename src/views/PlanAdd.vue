@@ -64,6 +64,7 @@ export default {
         created: moment(),
         year: this.selectedPlanYear,
         hoursToPlan: this.hoursToPlan,
+        isDeveloper: this.isDeveloper,
         participatesInFlex: this.participatesInFlex,
         flexScheduleType: this.flexScheduleType,
         flexDayReferenceDate: moment(this.flexDayReferenceDate).format(

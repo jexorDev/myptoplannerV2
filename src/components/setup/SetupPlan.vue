@@ -152,6 +152,11 @@ export default {
       type: String,
       required: true,
     },
+    isPlanYearDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   mounted() {
     this.selectedPlanYearSync = moment().year().toString();

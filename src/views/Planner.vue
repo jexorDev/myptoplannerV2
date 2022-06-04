@@ -25,7 +25,7 @@
 
 <v-divider class="mt-3"></v-divider>
 
-        <div class="overline">Entry Type</div>
+        <div class="overline">Entry</div>
 
           <v-btn-toggle v-model="entryType" mandatory dense>
             <v-btn value="single"> Single Day </v-btn>
@@ -60,39 +60,20 @@
                 :showIcon="false"
               ></DatePickerInMenu>
             </div>
-            <div class="mt-3 ml-2">
-              <v-checkbox
-                v-model="singleEntryIsAllDay"
-                label="All Day"
-              ></v-checkbox>
-            </div>
-            <div class="mt-3 ml-2 d-flex" v-if="!singleEntryIsAllDay">
-              <v-text-field
-                v-model="singleEntryHours"
-                type="number"
-                label="Hours"
-                style="width: 60px"
-              ></v-text-field>
-              <v-select
-                :items="meridianList"
-                v-model="selectedMeridian"
-                class="ml-2"
-                label="During"
-                style="width: 70px"
-              ></v-select>
-            </div>
+           
           </div>
         </div>
         <div class="font-weight-light font-italic mt-7 d-inline">
           {{ totalHours }} total hours
         </div>
-        <v-btn class="mt-5 d-inline" color="primary" @click="addPto"
+        <v-btn class="ml-5 d-inline" color="primary" @click="addPto"
           >Enter</v-btn
         >
 
 <v-divider class="mt-3"></v-divider>
 
         <div class="mt-3">
+          <div class="overline">Status</div>
           <WidgetHoursRemaining></WidgetHoursRemaining>
         </div>
       </v-col>
@@ -139,8 +120,8 @@ export default {
         ? getTotalPtoHours(
             getPtoDayForSingle(
               this.singleEntryDate,
-              this.$store.getters.userInfo.participatesInFlex,
-              this.$store.getters.userInfo.flexScheduleType,
+              this.$store.getters.selectedPlan.participatesInFlex,
+              this.$store.getters.selectedPlan.flexScheduleType,
               this.singleEntryIsAllDay,
               parseFloat(this.singleEntryHours)
             )
@@ -149,8 +130,8 @@ export default {
             getPtoDaysForRange(
               this.groupEntryStartDate,
               this.groupEntryEndDate,
-              this.$store.getters.userInfo.participatesInFlex,
-              this.$store.getters.userInfo.flexScheduleType
+              this.$store.getters.selectedPlan.participatesInFlex,
+              this.$store.getters.selectedPlan.flexScheduleType
             )
           );
     },
@@ -161,8 +142,8 @@ export default {
       if (this.entryType === "single") {
         ptoDays = getPtoDayForSingle(
           this.singleEntryDate,
-          this.$store.getters.userInfo.participatesInFlex,
-          this.$store.getters.userInfo.flexScheduleType,
+          this.$store.getters.selectedPlan.participatesInFlex,
+          this.$store.getters.selectedPlan.flexScheduleType,
           this.singleEntryIsAllDay,
           parseFloat(this.singleEntryHours)
         );
@@ -170,8 +151,8 @@ export default {
         ptoDays = getPtoDaysForRange(
           this.groupEntryStartDate,
           this.groupEntryEndDate,
-          this.$store.getters.userInfo.participatesInFlex,
-          this.$store.getters.userInfo.flexScheduleType
+          this.$store.getters.selectedPlan.participatesInFlex,
+          this.$store.getters.selectedPlan.flexScheduleType
         );
       }
 

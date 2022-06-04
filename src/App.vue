@@ -74,7 +74,7 @@
           <v-list-item
             link
             target="_blank"
-            href="https://github.com/jexorDev/myptoplanner"
+            href="https://github.com/jexorDev/myptoplannerv2"
           >
             <v-list-item-icon>
               <v-icon>mdi-github</v-icon>
