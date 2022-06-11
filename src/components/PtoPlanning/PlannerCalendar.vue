@@ -32,7 +32,7 @@
         <v-sheet :height="600">
           <v-calendar
             ref="calendar"
-            v-model="focus"
+            v-model="focusSync"
             type="month"
             :events="events"
             :event-color="getEventColor"
@@ -68,68 +68,46 @@
   </div>
 </template>
 <script>
+import { getIsoDateString } from "@/functions/dateHelpers";
 import moment from "moment";
 
 export default {
   name: "PlannerCalendar",
   props: {
-    planYear: Number,
-    ptoDates: Array,
-    holidays: Array,
-    flexDays: Array,
-    payDays: Array
+    focus: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    events: Array
   },
   data: () => ({
-    focus: "",
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false
   }),
   computed: {
-    events: function() {
-      return [
-        ...this.ptoDates.map(ptoDate => ({
-          name: `Usage: ${ptoDate.hours} hrs`,
-          start: ptoDate.date,
-          color: "purple",
-          timed: false,
-          type: "pto"
-        })),
-        ...this.holidays.map(holiday => ({
-          name: holiday.description,
-          start: holiday.date,
-          color: "pink",
-          timed: false,
-          type: "holiday"
-        })),
-        ...this.flexDays.map(flexDay => ({
-          name: "Flex Day",
-          start: flexDay,
-          color: "blue",
-          timed: false,
-          type: "flex"
-        }))
-      ];
-    },
     canMovePreviousMonth() {
       return moment(this.focus).month() !== 0;
     },
     canMoveNextMonth() {
       return moment(this.focus).month() !== 11;
-    }
-  },
-  watch: {
-    focus() {
-      this.$emit("focus-changed", this.focus);
     },
-    planYear() {
-      console.log("log");
-      this.setSelectedDate();
+    focusSync: {
+      get() {
+        return this.focus;
+      },
+      set(value) {
+        this.$emit("update:focus", getIsoDateString(value));
+      }
     }
   },
   mounted() {
     this.$refs.calendar.checkChange();
-    this.setSelectedDate();
+    //TODO: doing this to make the month appear next to nav chevrons
+    //Figure out how to remove these
+    this.selectedOpen = true;
+    this.selectedOpen = false;
   },
   methods: {
     deletePto(date) {
@@ -168,15 +146,6 @@ export default {
       }
 
       nativeEvent.stopPropagation();
-    },
-    setSelectedDate() {
-      if (moment().year() === this.planYear) {
-        this.focus = moment().format("YYYY-MM-DD");
-      } else {
-        this.focus = moment({ month: 0, date: 1, year: this.planYear }).format(
-          "YYYY-MM-DD"
-        );
-      }
     }
   }
 };

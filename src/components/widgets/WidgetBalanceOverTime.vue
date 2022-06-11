@@ -10,7 +10,6 @@
 </template>
 <script>
 import { getAggregatedEventList } from "@/functions/eventAggregator";
-import { getPayDays } from "@/functions/payDayCalculator";
 import moment from "moment";
 
 export default {
@@ -18,19 +17,10 @@ export default {
 
   computed: {
     balanceByMonth() {
-      return getAggregatedEventList(
-        this.$store.getters.ptoDates,
-        getPayDays(
-          this.$store.getters.selectedPlan.year,
-          this.$store.getters.userInfo.dateOfHire
-        ),
-        this.$store.getters.userInfo.dateOfHire,
-        this.$store.getters.selectedPlan.year,
-        this.$store.getters.selectedPlan.hoursBankedPrior
-      );
+      return getAggregatedEventList(this.$store.getters.ptoDates);
     },
     maxHours() {
-      return this.$store.getters.selectedPlan.hoursBankedPrior + 40;
+      return this.$store.getters.selectedPlan.hoursToPlan;
     },
     series() {
       return [
@@ -79,7 +69,7 @@ export default {
               borderColor: "red",
               label: {
                 show: true,
-                text: "MAX",
+                text: "Goal",
                 style: {
                   color: "red",
                   background: "pink"

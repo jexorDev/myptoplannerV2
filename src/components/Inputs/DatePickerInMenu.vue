@@ -24,6 +24,8 @@
     <v-date-picker
       v-model="selectedDateSync"
       no-title
+      :events="getEventColor"
+      :event-color="date => getEventColor(date)"
       @input="showMenu = false"
     ></v-date-picker>
   </v-menu>
@@ -36,6 +38,11 @@ export default {
   props: {
     label: String,
     selectedDate: String,
+    events: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
     showIcon: {
       type: Boolean,
       required: false,
@@ -47,6 +54,9 @@ export default {
     selectedDateFormatted: ""
   }),
   computed: {
+    eventDates: function() {
+      return this.events.map(x => x.start);
+    },
     selectedDateSync: {
       get() {
         return this.selectedDate;
@@ -70,6 +80,11 @@ export default {
         "update:selectedDate",
         getIsoDateString(this.selectedDateFormatted)
       );
+    },
+    getEventColor(date) {
+      var event = this.events.find(x => x.start === date);
+      if (event === undefined) return "";
+      return event.color;
     }
   }
 };

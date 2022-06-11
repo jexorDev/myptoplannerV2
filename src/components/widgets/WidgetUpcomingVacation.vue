@@ -27,7 +27,7 @@ export default {
       return this.$store.getters.ptoDates
         .filter(x => moment(x.date).isSameOrAfter(moment()))
         .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .slice(0, 3);
+        .slice(0, 4);
     }
   }
 };

@@ -4,12 +4,9 @@
       <v-col cols="9">
         <div v-show="viewType === 'calendar'">
           <PlannerCalendar
-            :pto-dates="ptoDates"
-            :holidays="holidays"
-            :flex-days="flexDays"
-            :pay-days="payDays"
+            :events="events"
+            :focus.sync="calendarSelectedDate"
             @delete-pto="deletePto"
-            @focus-changed="calendarDateChanged"
           ></PlannerCalendar>
         </div>
         <div v-show="viewType === 'list'">
@@ -39,6 +36,7 @@
                 label="From"
                 :selected-date.sync="groupEntryStartDate"
                 :show-icon="false"
+                :events="events"
               ></DatePickerInMenu>
             </div>
 
@@ -47,6 +45,7 @@
                 label="To"
                 :selected-date.sync="groupEntryEndDate"
                 :show-icon="false"
+                :events="events"
               ></DatePickerInMenu>
             </div>
           </div>
@@ -58,6 +57,7 @@
                 label="Day"
                 :selected-date.sync="singleEntryDate"
                 :show-icon="false"
+                :events="events"
               ></DatePickerInMenu>
             </div>
             <div class="mt-3 ml-2">
@@ -124,10 +124,34 @@ export default {
     singleEntryDate: getIsoDateString(moment()),
     singleEntryIsAllDay: true,
     singleEntryHours: 0,
-    meridianList: ["AM", "PM", "None"],
-    selectedMeridian: "AM"
+    calendarSelectedDate: getIsoDateString(moment())
   }),
   computed: {
+    events: function() {
+      return [
+        ...this.ptoDates.map(ptoDate => ({
+          name: `Usage: ${ptoDate.hours} hrs`,
+          start: ptoDate.date,
+          color: "purple",
+          timed: false,
+          type: "pto"
+        })),
+        ...this.holidays.map(holiday => ({
+          name: holiday.description,
+          start: holiday.date,
+          color: "pink",
+          timed: false,
+          type: "holiday"
+        })),
+        ...this.flexDays.map(flexDay => ({
+          name: "Flex Day",
+          start: flexDay,
+          color: "blue",
+          timed: false,
+          type: "flex"
+        }))
+      ];
+    },
     totalHours: function() {
       return this.entryType === "single"
         ? getTotalPtoHours(
@@ -147,7 +171,21 @@ export default {
               this.$store.getters.selectedPlan.flexScheduleType
             )
           );
+    },
+    planYear: function() {
+      return this.$store.getters.selectedPlan.year;
     }
+  },
+  watch: {
+    calendarSelectedDate() {
+      this.calendarDateChanged();
+    },
+    planYear() {
+      this.setSelectedDate();
+    }
+  },
+  mounted() {
+    this.setSelectedDate();
   },
   methods: {
     addPto() {
@@ -180,10 +218,29 @@ export default {
         date: moment(date).format("YYYY-MM-DD")
       });
     },
-    calendarDateChanged(date) {
-      this.singleEntryDate = getIsoDateString(moment(date));
-      this.groupEntryStartDate = getIsoDateString(moment(date));
-      this.groupEntryEndDate = getIsoDateString(moment(date).add(1, "day"));
+    calendarDateChanged() {
+      this.singleEntryDate = getIsoDateString(this.calendarSelectedDate);
+      this.groupEntryStartDate = getIsoDateString(
+        moment(this.calendarSelectedDate)
+      );
+      this.groupEntryEndDate = getIsoDateString(
+        moment(this.calendarSelectedDate).add(1, "day")
+      );
+    },
+    setSelectedDate() {
+      if (
+        moment()
+          .year()
+          .toString() === this.planYear
+      ) {
+        this.calendarSelectedDate = moment().format("YYYY-MM-DD");
+      } else {
+        this.calendarSelectedDate = moment({
+          month: 0,
+          date: 1,
+          year: this.planYear
+        }).format("YYYY-MM-DD");
+      }
     }
   }
 };
