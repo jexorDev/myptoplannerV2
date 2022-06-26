@@ -1,6 +1,7 @@
 <template>
   <div>
     <SetupPlan
+      ref="setupPlan"
       :selected-plan-year.sync="selectedPlanYear"
       :plan-name.sync="planName"
       :hours-to-plan.sync="hoursToPlan"
@@ -10,8 +11,8 @@
       :flex-day-reference-date.sync="flexDayReferenceDate"
     ></SetupPlan>
 
-    <v-btn color="success" outlined @click="savePlan"
-      ><v-icon class="mr-1">mdi-check-circle-outline</v-icon>Save and begin
+    <v-btn color="primary" outlined @click="savePlan"
+      >Save and begin
       planning PTO</v-btn
     >
   </div>
@@ -33,22 +34,13 @@ export default {
     flexDayReferenceDate: getIsoDateString(moment()),
     planName: "",
     selectedPlanYear: "",
-    hoursToPlan: 200,
+    hoursToPlan: 80,
     isDeveloper: false
   }),
   methods: {
     savePlan() {
-      // this.$store.dispatch("setUserInfo", {
-      //   dateOfHire: this.dateOfHire,
-      //   isDeveloper: this.isDeveloper,
-      //   participatesInFlex: this.participatesInFlex,
-      //   flexScheduleType: this.flexScheduleType,
-      //   flexDayReferenceDate: moment(this.flexDayReferenceDate).format(
-      //     "YYYY-MM-DD"
-      //   ),
-      // });
-      if (this.planName === "") {
-        alert("Please enter a plan name");
+
+      if (!this.$refs.setupPlan.validate()) {
         return;
       }
 

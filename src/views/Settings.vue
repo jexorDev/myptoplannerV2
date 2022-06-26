@@ -2,6 +2,7 @@
   <div class="mx-auto">
     <div class="display-1 headline">Plan Information</div>
     <SetupPlan
+      ref="setupPlan"
       :selected-plan-year.sync="planYear"
       :plan-name.sync="planName"
       :hours-to-plan.sync="hoursToPlan"
@@ -55,7 +56,6 @@ import SetupPlan from "@/components/setup/SetupPlan";
 
 export default {
   name: "Settings",
-
   components: {
     SetupPlan
   },
@@ -124,6 +124,12 @@ export default {
       }
     },
     savePlanInfoChanges() {
+
+      if (!this.$refs.setupPlan.validate()) {
+        console.log('validation failed. returning.')
+        return;
+      }
+
       this.$store.dispatch("updatePlan", {
         originalName: this.oldPlanName,
         updatedPlan: {
