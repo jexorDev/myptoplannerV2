@@ -32,11 +32,12 @@
         <v-sheet :height="600">
           <v-calendar
             ref="calendar"
-            v-model="focusSync"
+            v-model="selectedDate"
             type="month"
             :events="events"
             :event-color="getEventColor"
             @click:event="showEvent"
+            @click:date="dateSelected"
           ></v-calendar>
           <v-menu
             v-model="selectedOpen"
@@ -82,32 +83,33 @@ export default {
     events: Array
   },
   data: () => ({
+    selectedDate: "",
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false
   }),
-  computed: {
-    canMovePreviousMonth() {
-      return moment(this.focus).month() !== 0;
-    },
-    canMoveNextMonth() {
-      return moment(this.focus).month() !== 11;
-    },
-    focusSync: {
-      get() {
-        return this.focus;
-      },
-      set(value) {
-        this.$emit("update:focus", getIsoDateString(value));
-      }
-    }
-  },
   mounted() {
     this.$refs.calendar.checkChange();
     //TODO: doing this to make the month appear next to nav chevrons
     //Figure out how to remove these
     this.selectedOpen = true;
     this.selectedOpen = false;
+  },
+  computed: {
+    canMovePreviousMonth() {
+      return moment(this.selectedDate).month() !== 0;
+    },
+    canMoveNextMonth() {
+      return moment(this.selectedDate).month() !== 11;
+    },
+    planYear() {
+      return this.$store.getters.selectedPlan.year;
+    }
+  },
+  watch: {
+    focus() {
+      this.selectedDate = this.focus;
+    }
   },
   methods: {
     deletePto(date) {
@@ -146,6 +148,9 @@ export default {
       }
 
       nativeEvent.stopPropagation();
+    },
+    dateSelected(dateObj) {
+      this.$emit("update:focus", getIsoDateString(dateObj.date));
     }
   }
 };

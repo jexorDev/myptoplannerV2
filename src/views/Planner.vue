@@ -98,7 +98,7 @@ import WidgetHoursRemaining from "@/components/widgets/WidgetHoursRemaining";
 import PlannerList from "@/components/PtoPlanning/PlannerList";
 import PlannerCalendar from "@/components/PtoPlanning/PlannerCalendar";
 import DatePickerInMenu from "@/components/Inputs/DatePickerInMenu";
-import { getIsoDateString } from "@/functions/dateHelpers";
+import { getIsoDateString, generateRange } from "@/functions/dateHelpers";
 import {
   getPtoDaysForRange,
   getPtoDayForSingle,
@@ -120,7 +120,9 @@ export default {
     viewType: "calendar",
     entryType: "single",
     groupEntryStartDate: getIsoDateString(moment()),
-    groupEntryEndDate: getIsoDateString(moment()),
+    groupEntryEndDate: "",
+    groupEntryStartDateSelected: false,
+    groupEntryEndDateSelected: false,
     singleEntryDate: getIsoDateString(moment()),
     singleEntryIsAllDay: true,
     singleEntryHours: 0,
@@ -149,8 +151,22 @@ export default {
           color: "blue",
           timed: false,
           type: "flex"
+        })),
+        ...this.groupEntryRange.map(day => ({
+          name: "New Usage",
+          start: day,
+          color: "purple lighten-2",
+          timed: false,
+          type: "pto"
         }))
       ];
+    },
+    groupEntryRange: function() {
+      if (this.groupEntryStartDateSelected && this.groupEntryEndDateSelected) {
+        return generateRange(this.groupEntryStartDate, this.groupEntryEndDate);
+      } else {
+        return [];
+      }
     },
     totalHours: function() {
       return this.entryType === "single"
@@ -182,6 +198,12 @@ export default {
     },
     planYear() {
       this.setSelectedDate();
+    },
+    entryType() {
+      if (this.entryType === "single") {
+        this.groupEntryStartDateSelected = false;
+        this.groupEntryEndDateSelected = false;
+      }
     }
   },
   mounted() {
@@ -211,6 +233,9 @@ export default {
         planName: this.$store.getters.selectedPlanName,
         pto: ptoDays
       });
+
+      this.groupEntryStartDateSelected = false;
+      this.groupEntryEndDateSelected = false;
     },
     deletePto(date) {
       this.$store.dispatch("deletePtoDates", {
@@ -220,12 +245,41 @@ export default {
     },
     calendarDateChanged() {
       this.singleEntryDate = getIsoDateString(this.calendarSelectedDate);
-      this.groupEntryStartDate = getIsoDateString(
-        moment(this.calendarSelectedDate)
-      );
-      this.groupEntryEndDate = getIsoDateString(
-        moment(this.calendarSelectedDate).add(1, "day")
-      );
+
+      if (this.entryType === "single") {
+        this.groupEntryStartDate = this.singleEntryDate;
+      } else {
+        if (
+          this.groupEntryStartDateSelected &&
+          this.groupEntryEndDateSelected
+        ) {
+          this.groupEntryStartDateSelected = false;
+          this.groupEntryEndDateSelected = false;
+          this.groupEntryEndDate = "";
+        }
+
+        if (!this.groupEntryStartDateSelected) {
+          this.groupEntryStartDate = getIsoDateString(
+            moment(this.calendarSelectedDate)
+          );
+          this.groupEntryStartDateSelected = true;
+        } else {
+          if (
+            moment(this.groupEntryStartDate).isBefore(
+              moment(this.calendarSelectedDate)
+            )
+          ) {
+            this.groupEntryEndDate = getIsoDateString(
+              moment(this.calendarSelectedDate)
+            );
+            this.groupEntryEndDateSelected = true;
+          } else {
+            this.groupEntryStartDate = getIsoDateString(
+              moment(this.calendarSelectedDate)
+            );
+          }
+        }
+      }
     },
     setSelectedDate() {
       if (

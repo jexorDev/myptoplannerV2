@@ -15,8 +15,8 @@
       <div class="d-inline">with {{ mostUsageHours }} hours</div>
     </div>
     <div v-if="displayMinHoursAlert" class="mt-4">
-      <div class="d-inline">You must take a minimum of </div>
-      <div class="d-inline headline">10 Days </div>
+      <div class="d-inline">You must take a minimum of</div>
+      <div class="d-inline headline">10 Days</div>
       <div class="d-inline">of PTO</div>
     </div>
     <div v-if="!displayMinHoursAlert" class="mt-4">

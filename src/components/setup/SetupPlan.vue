@@ -30,6 +30,7 @@
           class="mt-0 pt-0"
           type="number"
           style="width: 60px"
+          label="Hours"
         ></v-text-field>
       </v-col>
       <v-col></v-col>
@@ -54,6 +55,7 @@
           :placeholder="
             `ex: My ${selectedPlanYearSync} plan with trips to Gulf Shores and Orlando!`
           "
+          :error-messages="planNameErrors"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -162,7 +164,8 @@ export default {
         .toString(),
       (moment().year() + 1).toString()
     ],
-    maxHoursCanRollover: 0
+    maxHoursCanRollover: 0,
+    planNameErrors: []
   }),
   computed: {
     selectedPlanYearSync: {
@@ -229,6 +232,18 @@ export default {
     this.selectedPlanYearSync = moment()
       .year()
       .toString();
+  },
+  methods: {
+    validate() {
+      if (this.planNameSync === "") {
+        this.planNameErrors.push("Please enter a Plan Name.");
+        return false;
+      } else {
+        this.planNameErrors = [];
+      }
+
+      return true;
+    }
   }
 };
 </script>
