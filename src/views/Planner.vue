@@ -120,7 +120,7 @@ export default {
     viewType: "calendar",
     entryType: "single",
     groupEntryStartDate: getIsoDateString(moment()),
-    groupEntryEndDate: getIsoDateString(moment()),
+    groupEntryEndDate: "",
     groupEntryStartDateSelected: false,
     groupEntryEndDateSelected: false,
     singleEntryDate: getIsoDateString(moment()),
@@ -233,6 +233,9 @@ export default {
         planName: this.$store.getters.selectedPlanName,
         pto: ptoDays
       });
+
+      this.groupEntryStartDateSelected = false;
+      this.groupEntryEndDateSelected = false;
     },
     deletePto(date) {
       this.$store.dispatch("deletePtoDates", {
@@ -252,6 +255,7 @@ export default {
         ) {
           this.groupEntryStartDateSelected = false;
           this.groupEntryEndDateSelected = false;
+          this.groupEntryEndDate = "";
         }
 
         if (!this.groupEntryStartDateSelected) {
@@ -260,10 +264,20 @@ export default {
           );
           this.groupEntryStartDateSelected = true;
         } else {
-          this.groupEntryEndDate = getIsoDateString(
-            moment(this.calendarSelectedDate)
-          );
-          this.groupEntryEndDateSelected = true;
+          if (
+            moment(this.groupEntryStartDate).isBefore(
+              moment(this.calendarSelectedDate)
+            )
+          ) {
+            this.groupEntryEndDate = getIsoDateString(
+              moment(this.calendarSelectedDate)
+            );
+            this.groupEntryEndDateSelected = true;
+          } else {
+            this.groupEntryStartDate = getIsoDateString(
+              moment(this.calendarSelectedDate)
+            );
+          }
         }
       }
     },
