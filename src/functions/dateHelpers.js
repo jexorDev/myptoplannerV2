@@ -50,6 +50,20 @@ export function getNextBusinessDay(date, direction, specificWeekDay) {
   return momentDate;
 }
 
+export function generateRange(startDate, endDate) {
+  const momentStartDate = getMomentDate(startDate);
+  const momentEndDate = getMomentDate(endDate);
+  let currentDate = momentStartDate;
+  let dateRange = [];
+
+  while (currentDate.isSameOrBefore(momentEndDate)) {
+    dateRange.push(currentDate.format("YYYY-MM-DD"));
+    currentDate.add(1, "day");
+  }
+
+  return dateRange;
+}
+
 function getMomentDate(date) {
   if (!date) return null;
 
