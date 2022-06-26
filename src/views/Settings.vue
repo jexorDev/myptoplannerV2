@@ -124,9 +124,7 @@ export default {
       }
     },
     savePlanInfoChanges() {
-
       if (!this.$refs.setupPlan.validate()) {
-        console.log('validation failed. returning.')
         return;
       }
 

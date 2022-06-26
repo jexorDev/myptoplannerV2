@@ -88,13 +88,6 @@ export default {
     selectedElement: null,
     selectedOpen: false
   }),
-  mounted() {
-    this.$refs.calendar.checkChange();
-    //TODO: doing this to make the month appear next to nav chevrons
-    //Figure out how to remove these
-    this.selectedOpen = true;
-    this.selectedOpen = false;
-  },
   computed: {
     canMovePreviousMonth() {
       return moment(this.selectedDate).month() !== 0;
@@ -110,6 +103,13 @@ export default {
     focus() {
       this.selectedDate = this.focus;
     }
+  },
+  mounted() {
+    this.$refs.calendar.checkChange();
+    //TODO: doing this to make the month appear next to nav chevrons
+    //Figure out how to remove these
+    this.selectedOpen = true;
+    this.selectedOpen = false;
   },
   methods: {
     deletePto(date) {
