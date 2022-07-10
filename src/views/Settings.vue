@@ -1,6 +1,5 @@
 <template>
-  <div class="mx-auto">
-    <div class="display-1 headline">Plan Information</div>
+  <div class="mx-auto">    
     <SetupPlan
       ref="setupPlan"
       :selected-plan-year.sync="planYear"
