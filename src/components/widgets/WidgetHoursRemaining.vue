@@ -35,10 +35,10 @@ export default {
   mixins: [plannerMixin],
   computed: {
     totalPtoToPlan() {
-      return this.$store.getters.selectedPlan.hoursToPlan;
+      return this.$store.getters.selectedPlan.hoursToPlan.toFixed(2);
     },
     remainingPtoToPlan() {
-      return this.totalPtoToPlan - this.totalPtoPlanned;
+      return (this.totalPtoToPlan - this.totalPtoPlanned).toFixed(2);
     },
     plannedPtoPercent() {
       return this.totalPtoToPlan > 0
