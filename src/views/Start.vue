@@ -42,6 +42,14 @@
         <v-btn x-large outlined color="primary" class="mt-7" to="/add-plan"
           >Get Started</v-btn
         >
+        <v-btn
+          x-large
+          outlined
+          color="primary"
+          class="mt-7 ml-2"
+          @click="showExportDialog = true"
+          >Import File</v-btn
+        >
       </v-col>
       <v-col cols="7">
         <v-carousel cycle show-arrows-on-hover hide-delimiters :interval="3000">
@@ -69,10 +77,24 @@
         </v-carousel>
       </v-col>
     </v-row>
+    <ExportDialog :show.sync="showExportDialog"></ExportDialog>
   </div>
 </template>
 <script>
+import ExportDialog from "@/components/Export/ExportDialog";
+
 export default {
-  name: "Start"
+  name: "Start",
+  components: {
+    ExportDialog
+  },
+  data: () => ({
+    showExportDialog: false
+  }),
+  created: function() {
+    if (this.$store.state.plans.length != 0) {
+      this.$router.push({ path: "/" });
+    }
+  }
 };
 </script>

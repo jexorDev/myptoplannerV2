@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="display-1 headline">Plan Information</div>
     <v-row>
       <v-col cols="4">
         <div>What year are you planning your PTO for?</div>
@@ -60,6 +61,7 @@
       </v-col>
     </v-row>
 
+    <div class="display-1 headline">User Information</div>
     <v-row no-gutters>
       <v-col cols="4">
         <v-checkbox
