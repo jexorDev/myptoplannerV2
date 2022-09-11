@@ -17,7 +17,6 @@ export default new Vuex.Store({
   mutations: {
     setState(state, payload) {
       state.selectedPlan = payload.plans ? payload.plans[0] : "";
-      state.dateOfHire = payload.dateOfHire;
       state.participatesInFlex = payload.participatesInFlex;
       state.flexScheduleType = payload.flexScheduleType;
       state.isDeveloper = payload.isDeveloper;
@@ -130,6 +129,9 @@ export default new Vuex.Store({
       return state.ptoDates.filter(
         ptoDate => ptoDate.plan === state.selectedPlanName
       );
+    },
+    entireState: state => {
+      return state;
     }
   },
   modules: {}

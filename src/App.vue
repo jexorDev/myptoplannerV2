@@ -56,6 +56,14 @@
             <v-list-item-title>Settings</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="showExportDialog = true">
+          <v-list-item-icon>
+            <v-icon>mdi-database-sync-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Inport/Export</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
       <template v-slot:append>
         <v-list class="mb-6" dense>
@@ -94,22 +102,26 @@
     ></DialogGoogleFormFeedback>
     <DialogGoogleFormReportBug :show.sync="showReportBugDialog">
     </DialogGoogleFormReportBug>
+    <ExportDialog :show.sync="showExportDialog"></ExportDialog>
   </v-app>
 </template>
 
 <script>
 import DialogGoogleFormFeedback from "@/components/GoogleForms/DialogGoogleFormFeedback";
 import DialogGoogleFormReportBug from "@/components/GoogleForms/DialogGoogleFormReportBug";
+import ExportDialog from "@/components/Export/ExportDialog";
 
 export default {
   name: "App",
   components: {
     DialogGoogleFormFeedback,
-    DialogGoogleFormReportBug
+    DialogGoogleFormReportBug,
+    ExportDialog
   },
   data: () => ({
     showFeedbackDialog: false,
-    showReportBugDialog: false
+    showReportBugDialog: false,
+    showExportDialog: false
   }),
   computed: {
     plans() {

@@ -12,8 +12,7 @@
     ></SetupPlan>
 
     <v-btn color="primary" outlined @click="savePlan"
-      >Save and begin
-      planning PTO</v-btn
+      >Save and begin planning PTO</v-btn
     >
   </div>
 </template>
@@ -39,7 +38,6 @@ export default {
   }),
   methods: {
     savePlan() {
-
       if (!this.$refs.setupPlan.validate()) {
         return;
       }
