@@ -49,16 +49,16 @@
           >
           <v-card-text>
             <WidgetApprovedAndUsedTotal></WidgetApprovedAndUsedTotal>
-
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card class="dashboard-card">
-          <v-card-title class="headline d-flex justify-center">Statistics</v-card-title>
+          <v-card-title class="headline d-flex justify-center"
+            >Statistics</v-card-title
+          >
           <v-card-text>
             <WidgetInformation></WidgetInformation>
-
           </v-card-text>
         </v-card>
       </v-col>

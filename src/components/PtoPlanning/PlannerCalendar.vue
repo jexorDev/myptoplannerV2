@@ -47,18 +47,23 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-toolbar-title >{{ selectedEvent.name }} on {{ selectedEvent.start }}</v-toolbar-title>
-                
+                <v-toolbar-title
+                  >{{ selectedEvent.name }} on
+                  {{ selectedEvent.start }}</v-toolbar-title
+                >
               </v-toolbar>
               <v-card-text>
-        <v-checkbox label="Approved" :input-value="selectedEvent.approved" @change="approvePto(selectedEvent)"></v-checkbox>  
-                
+                <v-checkbox
+                  label="Approved"
+                  :input-value="selectedEvent.approved"
+                  @change="approvePto(selectedEvent)"
+                ></v-checkbox>
+
                 <v-btn text color="red" @click="deletePto(selectedEvent.start)">
                   <v-icon left>mdi-delete</v-icon>Delete
                 </v-btn>
               </v-card-text>
               <v-card-actions>
-
                 <v-btn text color="secondary" @click="selectedOpen = false">
                   Close
                 </v-btn>
@@ -155,8 +160,8 @@ export default {
       this.$emit("update:focus", getIsoDateString(dateObj.date));
     },
     approvePto(request) {
-      console.log(request)
-      this.$emit("approve-pto", request.start)
+      console.log(request);
+      this.$emit("approve-pto", request.start);
     }
   }
 };

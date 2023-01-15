@@ -11,7 +11,8 @@
           ></PlannerCalendar>
         </div>
         <div v-show="viewType === 'list'">
-          <PlannerList @delete-pto="deletePto"       @approve-pto="approvePto"> </PlannerList>
+          <PlannerList @delete-pto="deletePto" @approve-pto="approvePto">
+          </PlannerList>
         </div>
       </v-col>
       <v-col>
@@ -137,7 +138,7 @@ export default {
           start: ptoDate.date,
           color: "purple",
           timed: false,
-          type: "pto", 
+          type: "pto",
           approved: ptoDate.approved
         })),
         ...this.holidays.map(holiday => ({
@@ -299,7 +300,10 @@ export default {
       }
     },
     approvePto(date) {
-      this.$store.dispatch("approvePto", {plan: this.$store.getters.selectedPlan.name, date: moment(date).format("YYYY-MM-DD")});
+      this.$store.dispatch("approvePto", {
+        plan: this.$store.getters.selectedPlan.name,
+        date: moment(date).format("YYYY-MM-DD")
+      });
     }
   }
 };

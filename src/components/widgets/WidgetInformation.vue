@@ -7,14 +7,13 @@
     <div class="headline" v-text="mostUsageInMonth"></div>
 
     <div v-if="displayMinHoursAlert" class="d-flex d-inline">
-      
-<v-icon>mdi-alert-outline</v-icon>
-      <div >You have not met the minimum requirement of 10 PTO Days</div>
+      <v-icon>mdi-alert-outline</v-icon>
+      <div>You have not met the minimum requirement of 10 PTO Days</div>
     </div>
-    <div v-if="!displayMinHoursAlert" class="d-flex d-inline" >
-<v-icon>mdi-alert-check</v-icon>
+    <div v-if="!displayMinHoursAlert" class="d-flex d-inline">
+      <v-icon>mdi-alert-check</v-icon>
 
-      <div >You have met the minimum PTO hours requirement</div>
+      <div>You have met the minimum PTO hours requirement</div>
     </div>
   </div>
 </template>

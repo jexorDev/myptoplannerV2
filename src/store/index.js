@@ -70,13 +70,12 @@ export default new Vuex.Store({
       localStorage.setItem("state", JSON.stringify(state));
     },
     addPtoDates({ commit, state }, payload) {
-      console.log(payload)
       const newDates = [];
       for (let pto of payload.pto) {
         newDates.push({
           plan: payload.planName,
           date: pto.date,
-          hours: pto.hours, 
+          hours: pto.hours,
           approved: pto.approved
         });
       }
@@ -108,13 +107,20 @@ export default new Vuex.Store({
     deleteAccount() {
       localStorage.removeItem("state");
       location.reload();
-    }, 
-    approvePto({ dispatch, state}, payload) {
-      const ptoRequest = state.ptoDates.find(x => x.plan === payload.plan && x.date === payload.date);
+    },
+    approvePto({ dispatch, state }, payload) {
+      const ptoRequest = state.ptoDates.find(
+        x => x.plan === payload.plan && x.date === payload.date
+      );
       if (ptoRequest) {
-        dispatch("deletePtoDates", {planName: ptoRequest.plan, date: ptoRequest.date});
-        dispatch("addPtoDates", {planName: ptoRequest.plan, pto: [{...ptoRequest, approved: !ptoRequest.approved}]})
-
+        dispatch("deletePtoDates", {
+          planName: ptoRequest.plan,
+          date: ptoRequest.date
+        });
+        dispatch("addPtoDates", {
+          planName: ptoRequest.plan,
+          pto: [{ ...ptoRequest, approved: !ptoRequest.approved }]
+        });
       }
     }
   },
