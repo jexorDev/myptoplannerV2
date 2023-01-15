@@ -8,7 +8,12 @@
       <template v-slot:item.date="{ item }">
         {{ item.date | formatDate }}
       </template>
-
+      <template v-slot:item.approved="{ item }">
+        <v-checkbox
+          :input-value="item.approved"
+          @change="approvePto(item)"
+        ></v-checkbox>
+      </template>
       <template v-slot:item.hours="{ item }">
         <v-chip v-if="item.hours" :color="getEventColor(item.type)" dark label>
           {{ item.hours }}
@@ -32,6 +37,7 @@ export default {
   data: () => ({
     tableHeaders: [
       { text: "Date", value: "date" },
+      { text: "Approved", value: "approved" },
       { text: "Amount", value: "hours", align: "end" },
       { text: "", value: "actions", width: "200", align: "end" }
     ]
@@ -84,6 +90,9 @@ export default {
     },
     deletePto(date) {
       this.$emit("delete-pto", date);
+    },
+    approvePto(request) {
+      this.$emit("approve-pto", request.date);
     }
   }
 };

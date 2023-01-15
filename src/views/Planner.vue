@@ -7,10 +7,12 @@
             :events="events"
             :focus.sync="calendarSelectedDate"
             @delete-pto="deletePto"
+            @approve-pto="approvePto"
           ></PlannerCalendar>
         </div>
         <div v-show="viewType === 'list'">
-          <PlannerList @delete-pto="deletePto"> </PlannerList>
+          <PlannerList @delete-pto="deletePto" @approve-pto="approvePto">
+          </PlannerList>
         </div>
       </v-col>
       <v-col>
@@ -136,7 +138,8 @@ export default {
           start: ptoDate.date,
           color: "purple",
           timed: false,
-          type: "pto"
+          type: "pto",
+          approved: ptoDate.approved
         })),
         ...this.holidays.map(holiday => ({
           name: holiday.description,
@@ -295,6 +298,12 @@ export default {
           year: this.planYear
         }).format("YYYY-MM-DD");
       }
+    },
+    approvePto(date) {
+      this.$store.dispatch("approvePto", {
+        plan: this.$store.getters.selectedPlan.name,
+        date: moment(date).format("YYYY-MM-DD")
+      });
     }
   }
 };

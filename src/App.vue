@@ -61,7 +61,7 @@
             <v-icon>mdi-database-sync-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Inport/Export</v-list-item-title>
+            <v-list-item-title>Import/Export</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

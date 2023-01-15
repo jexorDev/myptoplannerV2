@@ -43,22 +43,29 @@
             v-model="selectedOpen"
             :close-on-content-click="false"
             :activator="selectedElement"
-            offset-x
+            offset-y
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon @click="deletePto(selectedEvent.start)">
-                  <v-icon>mdi-trash-can-outline</v-icon>
-                </v-btn>
+                <v-toolbar-title
+                  >{{ selectedEvent.name }} on
+                  {{ selectedEvent.start }}</v-toolbar-title
+                >
               </v-toolbar>
               <v-card-text>
-                <span v-html="selectedEvent.details"></span>
+                <v-checkbox
+                  label="Approved"
+                  :input-value="selectedEvent.approved"
+                  @change="approvePto(selectedEvent)"
+                ></v-checkbox>
+
+                <v-btn text color="red" @click="deletePto(selectedEvent.start)">
+                  <v-icon left>mdi-delete</v-icon>Delete
+                </v-btn>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
-                  Cancel
+                  Close
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -151,6 +158,10 @@ export default {
     },
     dateSelected(dateObj) {
       this.$emit("update:focus", getIsoDateString(dateObj.date));
+    },
+    approvePto(request) {
+      console.log(request);
+      this.$emit("approve-pto", request.start);
     }
   }
 };
