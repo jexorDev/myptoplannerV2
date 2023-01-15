@@ -1,26 +1,20 @@
 <template>
   <div>
-    <div>
-      <div class="d-inline">You take an average of</div>
-      <div class="headline d-inline">
-        {{ averagePtoPerMonth }}
-      </div>
-      <div class="d-inline">hours per month</div>
+    <div class="overline">Average hours per month</div>
+    <div class="headline" v-text="averagePtoPerMonth"></div>
+
+    <div class="overline">Most hours taken in</div>
+    <div class="headline" v-text="mostUsageInMonth"></div>
+
+    <div v-if="displayMinHoursAlert" class="d-flex d-inline">
+      
+<v-icon>mdi-alert-outline</v-icon>
+      <div >You have not met the minimum requirement of 10 PTO Days</div>
     </div>
-    <div class="mt-4">
-      <div class="d-inline">You took the most hours in</div>
-      <div class="headline d-inline">
-        {{ mostUsageInMonth }}
-      </div>
-      <div class="d-inline">with {{ mostUsageHours }} hours</div>
-    </div>
-    <div v-if="displayMinHoursAlert" class="mt-4">
-      <div class="d-inline">You must take a minimum of</div>
-      <div class="d-inline headline">10 Days</div>
-      <div class="d-inline">of PTO</div>
-    </div>
-    <div v-if="!displayMinHoursAlert" class="mt-4">
-      <div class="d-inline">You have met the minimum PTO hours requirement</div>
+    <div v-if="!displayMinHoursAlert" class="d-flex d-inline" >
+<v-icon>mdi-alert-check</v-icon>
+
+      <div >You have met the minimum PTO hours requirement</div>
     </div>
   </div>
 </template>

@@ -5,7 +5,8 @@ export function getAggregatedEventList(pto) {
     ...pto.map(pto => ({
       type: "usage",
       date: moment(pto.date).hour(12),
-      hours: pto.hours
+      hours: pto.hours,
+      approved: pto.approved
     }))
   ];
 

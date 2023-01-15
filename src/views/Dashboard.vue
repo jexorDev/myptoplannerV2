@@ -45,21 +45,20 @@
       <v-col cols="3">
         <v-card class="dashboard-card">
           <v-card-title class="headline d-flex justify-center"
-            >Statistics</v-card-title
+            >Approved/Unapproved</v-card-title
           >
           <v-card-text>
-            <WidgetInformation></WidgetInformation>
+            <WidgetApprovedAndUsedTotal></WidgetApprovedAndUsedTotal>
+
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card class="dashboard-card">
-          <v-card-title class="headline d-flex justify-center"></v-card-title>
+          <v-card-title class="headline d-flex justify-center">Statistics</v-card-title>
           <v-card-text>
-            <div class="d-flex justify-center">
-              <v-icon>mdi-heart</v-icon>
-              <div class="ml-1">More useful information coming soon</div>
-            </div>
+            <WidgetInformation></WidgetInformation>
+
           </v-card-text>
         </v-card>
       </v-col>
@@ -72,6 +71,7 @@ import WidgetUsageByMonth from "@/components/widgets/WidgetUsageByMonth";
 import WidgetUpcomingVacation from "@/components/widgets/WidgetUpcomingVacation";
 import WidgetBalanceOverTime from "@/components/widgets/WidgetBalanceOverTime";
 import WidgetInformation from "@/components/widgets/WidgetInformation";
+import WidgetApprovedAndUsedTotal from "@/components/widgets/WidgetApprovedAndUsedTotal.vue";
 
 export default {
   name: "Dashboard",
@@ -80,7 +80,8 @@ export default {
     WidgetUsageByMonth,
     WidgetUpcomingVacation,
     WidgetBalanceOverTime,
-    WidgetInformation
+    WidgetInformation,
+    WidgetApprovedAndUsedTotal
   },
   data: () => ({
     balanceType: "overTime"
