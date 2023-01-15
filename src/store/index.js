@@ -113,7 +113,6 @@ export default new Vuex.Store({
       const ptoRequest = state.ptoDates.find(x => x.plan === payload.plan && x.date === payload.date);
       if (ptoRequest) {
         dispatch("deletePtoDates", {planName: ptoRequest.plan, date: ptoRequest.date});
-        ptoRequest.approved = true;
         dispatch("addPtoDates", {planName: ptoRequest.plan, pto: [{...ptoRequest, approved: !ptoRequest.approved}]})
 
       }
