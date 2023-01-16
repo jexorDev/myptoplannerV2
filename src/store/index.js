@@ -76,7 +76,7 @@ export default new Vuex.Store({
           plan: payload.planName,
           date: pto.date,
           hours: pto.hours,
-          approved: pto.approved
+          status: pto.status
         });
       }
       const newPtoDates = [
@@ -108,7 +108,7 @@ export default new Vuex.Store({
       localStorage.removeItem("state");
       location.reload();
     },
-    approvePto({ dispatch, state }, payload) {
+    updateStatus({ dispatch, state }, payload) {
       const ptoRequest = state.ptoDates.find(
         x => x.plan === payload.plan && x.date === payload.date
       );
@@ -119,7 +119,7 @@ export default new Vuex.Store({
         });
         dispatch("addPtoDates", {
           planName: ptoRequest.plan,
-          pto: [{ ...ptoRequest, approved: !ptoRequest.approved }]
+          pto: [{ ...ptoRequest, status: payload.status }]
         });
       }
     }

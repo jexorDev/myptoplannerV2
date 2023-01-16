@@ -29,7 +29,8 @@ function getPtoDays(
         currentDate,
         participatesInFlex,
         flexScheduleType
-      )
+      ),
+      status: 0
     });
   }
 
@@ -89,7 +90,11 @@ export function getPtoDayForSingle(
 ) {
   if (!isAllDay) {
     return [
-      { date: moment(date).format("YYYY-MM-DD"), hours: customHourEntry }
+      {
+        date: moment(date).format("YYYY-MM-DD"),
+        hours: customHourEntry,
+        status: 0
+      }
     ];
   } else {
     return getPtoDays(date, date, participatesInFlex, flexScheduleType, [], []);
