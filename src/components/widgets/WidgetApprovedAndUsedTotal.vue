@@ -1,14 +1,33 @@
 <template>
   <div>
-    <div class="overline">Used and Approved</div>
-    <div class="headline">{{ totalApprovedAndUsed }}</div>
-    <div class="caption font-italic">
-      Indicate on request as "U&A - {{ totalApprovedAndUsed }}"
+    <div class="d-flex d-inline mt-1">
+      <v-avatar color="primary" class="mr-2">
+        <div class="headline white--text">{{ totalApprovedAndUsed }}</div>
+      </v-avatar>
+      <v-icon large>mdi-account-check</v-icon>
+      <div class="headline mt-2 ml-1">Approved</div>
     </div>
-    <div class="overline">Unapproved</div>
-    <div class="headline">{{ totalUnapproved }}</div>
     <div class="caption font-italic">
-      Indicate on request as "P - {{ totalUnapproved }}"
+      Indicate on next request as "U&A - {{ totalApprovedAndUsed }}"
+    </div>
+
+    <div class="d-flex d-inline mt-1">
+      <v-avatar color="primary" class="mr-2">
+        <div class="headline white--text">{{ totalSubmitted }}</div>
+      </v-avatar>
+      <v-icon large>mdi-account-clock</v-icon>
+      <div class="headline mt-2 ml-1">Submitted</div>
+    </div>
+    <div v-show="totalSubmitted > 0" class="caption font-italic">
+      Indicate on next request as "P - {{ totalSubmitted }}"
+    </div>
+
+    <div class="d-flex d-inline mt-1">
+      <v-avatar color="primary" class="mr-2">
+        <div class="headline white--text">{{ totalUnsubmitted }}</div>
+      </v-avatar>
+      <v-icon large>mdi-account-edit-outline</v-icon>
+      <div class="headline mt-2 ml-1">Unsubmitted</div>
     </div>
   </div>
 </template>
@@ -21,14 +40,21 @@ export default {
   computed: {
     totalApprovedAndUsed() {
       return this.ptoDates
-        .filter(x => x.approved)
+        .filter(x => x.status === 2)
         .reduce((acc, val) => {
           return acc + val.hours;
         }, 0);
     },
-    totalUnapproved() {
+    totalSubmitted() {
       return this.ptoDates
-        .filter(x => !x.approved)
+        .filter(x => x.status === 1)
+        .reduce((acc, val) => {
+          return acc + val.hours;
+        }, 0);
+    },
+    totalUnsubmitted() {
+      return this.ptoDates
+        .filter(x => x.status === undefined || x.status === 0)
         .reduce((acc, val) => {
           return acc + val.hours;
         }, 0);

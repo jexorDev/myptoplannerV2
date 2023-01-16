@@ -44,9 +44,7 @@
       </v-col>
       <v-col cols="3">
         <v-card class="dashboard-card">
-          <v-card-title class="headline d-flex justify-center"
-            >Approved/Unapproved</v-card-title
-          >
+          <v-card-title class="headline d-flex justify-center"></v-card-title>
           <v-card-text>
             <WidgetApprovedAndUsedTotal></WidgetApprovedAndUsedTotal>
           </v-card-text>

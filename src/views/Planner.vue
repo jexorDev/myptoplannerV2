@@ -7,11 +7,11 @@
             :events="events"
             :focus.sync="calendarSelectedDate"
             @delete-pto="deletePto"
-            @approve-pto="approvePto"
+            @update-status="updateStatus"
           ></PlannerCalendar>
         </div>
         <div v-show="viewType === 'list'">
-          <PlannerList @delete-pto="deletePto" @approve-pto="approvePto">
+          <PlannerList @delete-pto="deletePto" @update-status="updateStatus">
           </PlannerList>
         </div>
       </v-col>
@@ -134,12 +134,13 @@ export default {
     events: function() {
       return [
         ...this.ptoDates.map(ptoDate => ({
-          name: `Usage: ${ptoDate.hours} hrs`,
+          name: `${ptoDate.hours} hrs | ${this.getStatusText(ptoDate.status)}`,
           start: ptoDate.date,
           color: "purple",
           timed: false,
           type: "pto",
-          approved: ptoDate.approved
+          status: ptoDate.status,
+          hours: ptoDate.hours
         })),
         ...this.holidays.map(holiday => ({
           name: holiday.description,
@@ -299,11 +300,22 @@ export default {
         }).format("YYYY-MM-DD");
       }
     },
-    approvePto(date) {
-      this.$store.dispatch("approvePto", {
+    updateStatus(date, status) {
+      this.$store.dispatch("updateStatus", {
         plan: this.$store.getters.selectedPlan.name,
-        date: moment(date).format("YYYY-MM-DD")
+        date: moment(date).format("YYYY-MM-DD"),
+        status: status
       });
+    },
+    getStatusText(status) {
+      if (status === 2) {
+        return "Approved";
+      }
+      if (status === 1) {
+        return "Submitted";
+      }
+
+      return "Unsubmitted";
     }
   }
 };

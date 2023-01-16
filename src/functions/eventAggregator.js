@@ -6,7 +6,7 @@ export function getAggregatedEventList(pto) {
       type: "usage",
       date: moment(pto.date).hour(12),
       hours: pto.hours,
-      approved: pto.approved
+      status: pto.status
     }))
   ];
 

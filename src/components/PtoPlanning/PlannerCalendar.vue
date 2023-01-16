@@ -47,25 +47,46 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-toolbar-title
-                  >{{ selectedEvent.name }} on
-                  {{ selectedEvent.start }}</v-toolbar-title
-                >
+                <v-toolbar-title>Usage </v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-checkbox
-                  label="Approved"
-                  :input-value="selectedEvent.approved"
-                  @change="approvePto(selectedEvent)"
-                ></v-checkbox>
+                <v-row>
+                  <v-col>
+                    <div class="overline">Date</div>
+                    <div>{{ getDateFormatted(selectedEvent.start) }}</div>
+                  </v-col>
+                  <v-col>
+                    <div class="overline">Hours</div>
+                    <div>{{ selectedEvent.hours }}</div>
+                  </v-col>
+                </v-row>
 
-                <v-btn text color="red" @click="deletePto(selectedEvent.start)">
-                  <v-icon left>mdi-delete</v-icon>Delete
-                </v-btn>
+                <div class="overline">Status</div>
+
+                <v-btn-toggle dense :value="selectedEvent.status">
+                  <v-btn @click="updateStatus(selectedEvent, 0)">
+                    <v-icon left>mdi-account-edit-outline</v-icon>
+                    Unsubmitted
+                  </v-btn>
+
+                  <v-btn @click="updateStatus(selectedEvent, 1)">
+                    <v-icon left>mdi-account-clock</v-icon>
+                    Submitted
+                  </v-btn>
+
+                  <v-btn @click="updateStatus(selectedEvent, 2)">
+                    <v-icon left>mdi-account-check</v-icon>
+                    Approved
+                  </v-btn>
+                </v-btn-toggle>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
                   Close
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn text color="red" @click="deletePto(selectedEvent.start)">
+                  <v-icon left>mdi-delete</v-icon>Delete
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -159,9 +180,12 @@ export default {
     dateSelected(dateObj) {
       this.$emit("update:focus", getIsoDateString(dateObj.date));
     },
-    approvePto(request) {
-      console.log(request);
-      this.$emit("approve-pto", request.start);
+    updateStatus(request, status) {
+      console.log(status);
+      this.$emit("update-status", request.start, status);
+    },
+    getDateFormatted(date) {
+      return moment(date).format("MM/DD/YYYY");
     }
   }
 };
