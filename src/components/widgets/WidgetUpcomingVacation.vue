@@ -1,20 +1,16 @@
 <template>
   <div>
-    <v-timeline dense>
-      <v-timeline-item v-for="(pto, index) in upcomingPto" :key="index" small>
-        <v-row class="pt-1">
-          <v-col>
-            <strong>{{ pto.date | formatDate }}</strong>
-          </v-col>
-          <v-col>
-            <strong>{{ pto.hours }} hrs</strong>
-            <!-- <div class="text-caption">
-                Mobile App
-              </div> -->
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-    </v-timeline>
+    <v-simple-table dense>
+      <template v-slot:default>
+        <thead></thead>
+        <tbody>
+          <tr v-for="item in upcomingPto" :key="item.date">
+            <td>{{ item.date | formatDate }}</td>
+            <td>{{ item.hours }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 <script>
