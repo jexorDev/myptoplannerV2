@@ -5,28 +5,19 @@
         <v-card class="dashboard-card">
           <v-card-title class="headline d-flex justify-center">
             <div class="mr-5">Usage</div>
-            <v-btn-toggle v-model="balanceType" mandatory dense>
-              <v-btn value="byMonth">By month</v-btn>
-              <v-btn value="overTime">Over time</v-btn>
-            </v-btn-toggle>
           </v-card-title>
           <v-card-text>
-            <WidgetBalanceOverTime
-              v-show="balanceType === 'overTime'"
-            ></WidgetBalanceOverTime>
-            <WidgetUsageByMonth
-              v-show="balanceType === 'byMonth'"
-            ></WidgetUsageByMonth>
+            <WidgetUsageByMonth></WidgetUsageByMonth>
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="6">
         <v-card class="dashboard-card">
-          <v-card-title class="headline d-flex justify-center"
-            >Upcoming</v-card-title
-          >
+          <v-card-title class="headline d-flex justify-center">
+            <div class="mr-5">Usage</div>
+          </v-card-title>
           <v-card-text>
-            <WidgetUpcomingVacation></WidgetUpcomingVacation>
+            <WidgetBalanceOverTime></WidgetBalanceOverTime>
           </v-card-text>
         </v-card>
       </v-col>
@@ -57,6 +48,16 @@
           >
           <v-card-text>
             <WidgetInformation></WidgetInformation>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="3">
+        <v-card class="dashboard-card">
+          <v-card-title class="headline d-flex justify-center"
+            >Upcoming</v-card-title
+          >
+          <v-card-text>
+            <WidgetUpcomingVacation></WidgetUpcomingVacation>
           </v-card-text>
         </v-card>
       </v-col>

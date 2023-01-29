@@ -15,14 +15,39 @@ export default {
   name: "WidgetUsageByMonth",
 
   computed: {
-    balanceByMonth() {
+    totalBalanceByMonth() {
       return getUsageByMonth(this.$store.getters.ptoDates);
+    },
+    approvedBalanceByMonth() {
+      return getUsageByMonth(
+        this.$store.getters.ptoDates.filter(x => x.status === 2)
+      );
+    },
+    submittedBalanceByMonth() {
+      return getUsageByMonth(
+        this.$store.getters.ptoDates.filter(x => x.status === 1)
+      );
+    },
+    unsubmittedBalanceByMonth() {
+      return getUsageByMonth(
+        this.$store.getters.ptoDates.filter(
+          x => x.status === undefined || x.status === 0
+        )
+      );
     },
     series() {
       return [
         {
-          name: "Usage",
-          data: this.balanceByMonth.map(x => x.totalPto)
+          name: "Approved",
+          data: this.approvedBalanceByMonth.map(x => x.totalPto)
+        },
+        {
+          name: "Submitted",
+          data: this.submittedBalanceByMonth.map(x => x.totalPto)
+        },
+        {
+          name: "Unsubmitted",
+          data: this.unsubmittedBalanceByMonth.map(x => x.totalPto)
         }
       ];
     },
@@ -33,17 +58,20 @@ export default {
           height: 350,
           zoom: {
             enabled: false
-          }
+          },
+          stacked: true
         },
         toolbar: null,
         dataLabels: {
-          enabled: false
+          enabled: true,
+          textAnchor: "start",
+          offsetX: 0
         },
-
         title: {
           enabled: false
         },
-        labels: this.balanceByMonth.map(x => x.month),
+        labels: this.approvedBalanceByMonth.map(x => x.month),
+
         xaxis: {
           type: "string"
         }

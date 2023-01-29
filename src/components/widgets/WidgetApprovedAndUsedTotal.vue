@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="d-flex d-inline mt-1">
-      <v-avatar color="primary" class="mr-2">
+      <v-chip color="success lighten-1" class="mr-2" large>
         <div class="headline white--text">{{ totalApprovedAndUsed }}</div>
-      </v-avatar>
+      </v-chip>
       <v-icon large>mdi-account-check</v-icon>
       <div class="headline mt-2 ml-1">Approved</div>
     </div>
@@ -12,9 +12,9 @@
     </div>
 
     <div class="d-flex d-inline mt-1">
-      <v-avatar color="primary" class="mr-2">
+      <v-chip color="primary lighten-1" class="mr-2" large>
         <div class="headline white--text">{{ totalSubmitted }}</div>
-      </v-avatar>
+      </v-chip>
       <v-icon large>mdi-account-clock</v-icon>
       <div class="headline mt-2 ml-1">Submitted</div>
     </div>
@@ -23,9 +23,9 @@
     </div>
 
     <div class="d-flex d-inline mt-1">
-      <v-avatar color="primary" class="mr-2">
+      <v-chip color="warning lighten-1" class="mr-2" large>
         <div class="headline white--text">{{ totalUnsubmitted }}</div>
-      </v-avatar>
+      </v-chip>
       <v-icon large>mdi-account-edit-outline</v-icon>
       <div class="headline mt-2 ml-1">Unsubmitted</div>
     </div>
