@@ -4,7 +4,7 @@
       <v-col cols="6">
         <v-card class="dashboard-card">
           <v-card-title class="headline d-flex justify-center">
-            <div class="mr-5">Usage</div>
+            <div class="mr-5">Usage by Month</div>
           </v-card-title>
           <v-card-text>
             <WidgetUsageByMonth></WidgetUsageByMonth>
@@ -14,7 +14,7 @@
       <v-col cols="6">
         <v-card class="dashboard-card">
           <v-card-title class="headline d-flex justify-center">
-            <div class="mr-5">Usage</div>
+            <div class="mr-5">Burndown</div>
           </v-card-title>
           <v-card-text>
             <WidgetBalanceOverTime></WidgetBalanceOverTime>

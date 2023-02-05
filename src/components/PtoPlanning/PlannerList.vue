@@ -2,27 +2,43 @@
   <div>
     <v-data-table
       :headers="tableHeaders"
-      :items="aggregatedEventList"
-      disable-sort
+      :items="ptoDates"
+      :sort-by="sortBy"
     >
       <template v-slot:item.date="{ item }">
         {{ item.date | formatDate }}
       </template>
       <template v-slot:item.status="{ item }">
-        <v-tooltip right>
-          <template v-slot:activator="{ on, attrs }">
-            <v-chip
-              label
-              :color="getStatusColor(item.status)"
-              v-bind="attrs"
-              @click="updateStatus(item)"
-              v-on="on"
-              ><v-icon left small>{{ getStatusIcon(item.status) }}</v-icon
-              >{{ getStatusText(item.status) }}</v-chip
-            >
-          </template>
-          <span>Click to toggle status</span>
-        </v-tooltip>
+        <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          :color="getStatusColor(item.status)"
+          v-bind="attrs"
+          v-on="on"
+        >
+        <v-icon left small>{{ getStatusIcon(item.status) }}</v-icon
+              >{{ getStatusText(item.status) }} <v-icon right small>mdi-chevron-down</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item @click="updateStatus(item, 0)"
+        >
+          <v-list-item-title>Unsubmitted</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="updateStatus(item, 1)"
+        >
+          <v-list-item-title>Submitted</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="updateStatus(item, 2)"
+        >
+          <v-list-item-title>Approved</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+       
+      </template>
+      <template v-slot:item.hours="{ item }">
+        {{ item.hours }} hrs
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn text color="red" @click="deletePto(item.date)">Delete</v-btn>
@@ -31,7 +47,6 @@
   </div>
 </template>
 <script>
-import { getAggregatedEventList } from "@/functions/eventAggregator";
 import plannerMixin from "@/mixins/plannerMixin";
 
 export default {
@@ -43,29 +58,15 @@ export default {
       { text: "Status", value: "status" },
       { text: "Amount", value: "hours", align: "end" },
       { text: "", value: "actions", width: "200", align: "end" }
-    ]
+    ],
+    sortBy: ["date"]
   }),
-  computed: {
-    aggregatedEventList() {
-      return getAggregatedEventList(
-        this.ptoDates,
-        this.payDays,
-        this.$store.getters.userInfo.dateOfHire,
-        this.$store.getters.selectedPlan.year,
-        this.$store.getters.selectedPlan.hoursBankedPrior,
-        this.totalPtoAccrualHours,
-        this.$store.getters.selectedPlan.hoursToPlan
-      );
-    }
-  },
   methods: {
     deletePto(date) {
       this.$emit("delete-pto", date);
     },
-    updateStatus(request) {
-      const newStatus = request.status === 2 ? 0 : request.status + 1;
-      console.log(newStatus);
-      this.$emit("update-status", request.date, newStatus);
+    updateStatus(request, status) {
+      this.$emit("update-status", request.date, status);
     },
     getStatusText(status) {
       if (status === 2) {

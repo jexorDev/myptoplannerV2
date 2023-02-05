@@ -6,7 +6,7 @@
         <tbody>
           <tr v-for="item in upcomingPto" :key="item.date">
             <td>{{ item.date | formatDate }}</td>
-            <td>{{ item.hours }}</td>
+            <td>{{ item.hours }} hrs</td>
           </tr>
         </tbody>
       </template>

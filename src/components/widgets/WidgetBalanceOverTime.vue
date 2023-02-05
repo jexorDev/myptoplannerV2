@@ -16,8 +16,8 @@ export default {
   name: "WidgetBalanceOverTime",
 
   computed: {
-    balanceByMonth() {
-      return getAggregatedEventList(this.$store.getters.ptoDates);
+    burndown() {
+      return getAggregatedEventList(this.$store.getters.ptoDates, this.$store.getters.selectedPlan.year);
     },
     maxHours() {
       return this.$store.getters.selectedPlan.hoursToPlan;
@@ -25,9 +25,10 @@ export default {
     series() {
       return [
         {
-          name: "Balance",
-          data: this.balanceByMonth.map(x => x.runningTotal)
-        }
+          name: "Actual Usage",
+          data: this.burndown.map(x => x.runningTotal)
+        },
+       
       ];
     },
     chartOptions() {
@@ -37,48 +38,37 @@ export default {
           height: 350,
           zoom: {
             enabled: false
-          }
+          },
+       
         },
+      
         dataLabels: {
           enabled: false
         },
         stroke: {
-          curve: "straight"
+          curve: "smooth"
         },
 
         title: {
           enabled: false
         },
-        labels: this.balanceByMonth.map(x =>
+        labels: this.burndown.map(x =>
           moment(x.date).format("MM/DD/YYYY")
         ),
         xaxis: {
           type: "datetime"
         },
         yaxis: {
-          opposite: true
+          opposite: true,
+          min: 0,
+        max: this.$store.getters.selectedPlan.hoursToPlan,
+        forceNiceScale: true,
+        reversed: true,
         },
         legend: {
           horizontalAlign: "left"
         },
-        annotations: {
-          yaxis: [
-            {
-              y: this.maxHours,
-              y2: this.maxHours + 1,
-              borderColor: "red",
-              label: {
-                show: true,
-                text: "Goal",
-                style: {
-                  color: "red",
-                  background: "pink"
-                }
-              }
-            }
-          ],
-          xaxis: []
-        }
+       
       };
     }
   }
